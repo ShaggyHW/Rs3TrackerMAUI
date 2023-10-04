@@ -53,12 +53,12 @@ public partial class MainPage : ContentPage {
 #if MACCATALYST
             mainDir = AppDomain.CurrentDomain.BaseDirectory.Replace("Rs3TrackerMAUI.app/Content/MonoBundle","");
 #endif
-            if (!File.Exists(mainDir+"\\keybinds.json")) {
+            if (!File.Exists(mainDir+"keybinds.json")) {
                  DisplayAlert("Alert", "Missing Keybinds", "OK");
                 //MessageBox.Show("Missing Keybinds");
                 return;
             }
-            if (!File.Exists(mainDir+"\\barkeybinds.json")) {
+            if (!File.Exists(mainDir+"barkeybinds.json")) {
                 DisplayAlert("Alert", "Missing Bar Keybinds", "OK");
               
                 return;
