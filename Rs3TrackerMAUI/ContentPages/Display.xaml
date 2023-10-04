@@ -6,61 +6,60 @@
     <Grid>
         <Image x:Name="backgroundImage"
                Source="background.png"
-               Aspect="AspectFill"              
+               Aspect="AspectFill"
                HorizontalOptions="Start" />
         <Grid>
             <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
 
-       
-        
-        <!--<Label Foreground="White"
+            <!--<Label Foreground="White"
                x:Name="TESTLABEL"
                Visibility="Collapsed">assad</Label>-->
-        <Image Grid.Column="0"
-               Margin="5"
-               x:Name="displayImg1" />
-        <Image Grid.Column="1"
-               Margin="5"
-               x:Name="displayImg2" />
-        <Image Grid.Column="2"
-               Margin="5"
-               x:Name="displayImg3" />
-        <Image Grid.Column="3"
-               Margin="5"
-               x:Name="displayImg4" />
-        <Image Grid.Column="4"
-               Margin="5"
-               x:Name="displayImg5" />
-        <Image Grid.Column="5"
-               Margin="5"
-               x:Name="displayImg6" />
-        <Image Grid.Column="6"
-               Margin="5"
-               x:Name="displayImg7" />
-        <Image Grid.Column="7"
-               Margin="5"
-               x:Name="displayImg8" />
-        <Image Grid.Column="8"
-               Margin="5"
-               x:Name="displayImg9" />
-        <!--<Border Grid.Column="9"
-                BorderBrush="White"
-                BorderThickness="2">-->
-        <Image Margin="5"
-                   Grid.Column="9"
-                   x:Name="displayImg10" />
-        <!--</Border>-->
+            <Image Grid.Column="0"
+                   Margin="5"
+                   x:Name="displayImg1" />
+            <Image Grid.Column="1"
+                   Margin="5"
+                   x:Name="displayImg2" />
+            <Image Grid.Column="2"
+                   Margin="5"
+                   x:Name="displayImg3" />
+            <Image Grid.Column="3"
+                   Margin="5"
+                   x:Name="displayImg4" />
+            <Image Grid.Column="4"
+                   Margin="5"
+                   x:Name="displayImg5" />
+            <Image Grid.Column="5"
+                   Margin="5"
+                   x:Name="displayImg6" />
+            <Image Grid.Column="6"
+                   Margin="5"
+                   x:Name="displayImg7" />
+            <Image Grid.Column="7"
+                   Margin="5"
+                   x:Name="displayImg8" />
+            <Image Grid.Column="8"
+                   Margin="5"
+                   x:Name="displayImg9" />
+
+            <Border Grid.Column="9"
+                    Stroke="White"
+                    StrokeThickness="2">
+                <Image Margin="5"
+                       Grid.Column="9"
+                       x:Name="displayImg10" />
+            </Border>
         </Grid>
     </Grid>
 </ContentPage>
