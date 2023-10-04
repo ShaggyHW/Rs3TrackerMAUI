@@ -46,7 +46,13 @@ public partial class MainPage : ContentPage {
             btnStartTracker.Text = "Start Tracker";
 
         } else {
+            string mainDir = "";
+#if WINDOWS
             string mainDir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+#if MACCATALYST
+            string mainDir = AppDomain.CurrentDomain.BaseDirectory.Replace("Rs3TrackerMaui.app/Contenst/MonoBundle");
+#endif
             if (!File.Exists(mainDir+"\\keybinds.json")) {
                  DisplayAlert("Alert", "Missing Keybinds", "OK");
                 //MessageBox.Show("Missing Keybinds");
