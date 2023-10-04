@@ -44,7 +44,7 @@
                              HorizontalOptions="Start"
                              Margin="5">
                     <CheckBox x:Name="TrackCD"></CheckBox>
-                    <Label>Track CoolDowns?</Label>
+                    <Label>Track Cooldowns?</Label>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="Start"
@@ -57,7 +57,7 @@
                              Margin="5">
                     <CheckBox x:Name="CanResize"                            
                               CheckedChanged="CanResize_CheckedChanged"                               />
-                    <Label>Can Resize and not ClickThrough (Requires to restart of display window)</Label>
+                    <Label>Can Resize and not Clickthrough (Requires to restart of display window)</Label>
                 </StackLayout>
                 <!--<CheckBox x:Name="ServerCheck"
                           Content="Activate Server Comms (Contact the DEV to be able to use this!)" />-->

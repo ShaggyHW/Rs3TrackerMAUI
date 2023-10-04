@@ -1,11 +1,11 @@
 ﻿using Microsoft.Maui.Dispatching;
-
+using Rs3TrackerMAUI.ContentPages;
 
 namespace Rs3TrackerMAUI;
 
 public partial class MainPage : ContentPage {
-    int count = 0;
-
+ 
+    Display display = null;
     public MainPage() {
         InitializeComponent();
         Loaded += MainPage_Loaded;        
@@ -36,7 +36,45 @@ public partial class MainPage : ContentPage {
     }
 
     private void btnStartTracker_Clicked(object sender, EventArgs e) {
+        if (display != null) {
+            //displayX = display.Left;
+            //displayY = display.Top;
+            //DisplayHeight = display.Height;
+            //DisplayWidth = display.Width;
+         //   display.Close();
+            display = null;
+            btnStartTracker.Text = "Start Tracker";
 
+        } else {
+            string mainDir = AppDomain.CurrentDomain.BaseDirectory;
+            if (!File.Exists(mainDir+"\\keybinds.json")) {
+                 DisplayAlert("Alert", "Missing Keybinds", "OK");
+                //MessageBox.Show("Missing Keybinds");
+                return;
+            }
+            if (!File.Exists(mainDir+"\\barkeybinds.json")) {
+                DisplayAlert("Alert", "Missing Bar Keybinds", "OK");
+              
+                return;
+            }
+            //if (cmbMode.SelectedIndex.Equals(-1))
+            //    return;
+
+            btnStartTracker.Text = "Close Tracker";
+            //display = new Display(cmbMode.Text.ToLower(), TrackCD.IsChecked.Value, onTop.IsChecked.Value, CanResize.IsChecked.Value, ServerCheck.IsChecked.Value);
+            //display.Top = displayY;
+            //display.Left = displayX;
+            //display.Height = DisplayHeight;
+            //display.Width = DisplayWidth;
+            //display.Show();
+            var secondWindow = new Window {
+                Page = new Display {
+                    // ...
+                }
+            };
+
+            Application.Current.OpenWindow(secondWindow);
+        }
     }
 
     private void CanResize_CheckedChanged(object sender, CheckedChangedEventArgs e) {

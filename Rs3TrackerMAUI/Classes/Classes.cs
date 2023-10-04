@@ -33,5 +33,14 @@ namespace Rs3TrackerMAUI.Classes {
             public BarClass bar { get; set; }
             public Ability ability { get; set; }
         }
+        public class ResquestInput {
+            public int type { get; set; }
+            public long time { get; set; }
+            public bool altKey { get; set; }
+            public bool ctrlKey { get; set; }
+            public bool metaKey { get; set; }
+            public bool shiftKey { get; set; }
+            public int keycode { get; set; }
+        }
     }
 }
