@@ -39,20 +39,20 @@ public partial class Display : ContentPage {
             ctrlKey = false,
             keycode = 40
         });
-        HookKeyDown(new ResquestInput() {
-            altKey = false,
-            shiftKey = false,
-            metaKey = false,
-            ctrlKey = false,
-            keycode = 40
-        });
-        HookKeyDown(new ResquestInput() {
-            altKey = false,
-            shiftKey = false,
-            metaKey = false,
-            ctrlKey = false,
-            keycode = 40
-        });
+        //HookKeyDown(new ResquestInput() {
+        //    altKey = false,
+        //    shiftKey = false,
+        //    metaKey = false,
+        //    ctrlKey = false,
+        //    keycode = 40
+        //});
+        //HookKeyDown(new ResquestInput() {
+        //    altKey = false,
+        //    shiftKey = false,
+        //    metaKey = false,
+        //    ctrlKey = false,
+        //    keycode = 40
+        //});
     }
 
     private void HookKeyDown(ResquestInput e) {
