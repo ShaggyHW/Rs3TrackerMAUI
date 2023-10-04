@@ -25,7 +25,7 @@ public partial class Display : ContentPage {
             mainDir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
 #if MACCATALYST
-            mainDir = AppDomain.CurrentDomain.BaseDirectory.Replace("Rs3TrackerMAUI.app/Content/MonoBundle","");
+            mainDir = AppDomain.CurrentDomain.BaseDirectory.Replace("Rs3TrackerMAUI.app/Contents/MonoBundle","");
 #endif
     }
 
