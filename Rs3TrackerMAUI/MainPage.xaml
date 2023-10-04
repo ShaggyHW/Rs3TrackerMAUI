@@ -1,36 +1,96 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Rs3TrackerMAUI.MainPage">
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"        
+             x:Class="Rs3TrackerMAUI.MainPage"
+         
+         >
 
-    <ScrollView>
-        <VerticalStackLayout Spacing="25"
-                             Padding="30,0"
-                             VerticalOptions="Center">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackLayout  Orientation="Horizontal"
+                  HorizontalOptions="Center"
+                     Grid.Row="0"
+                     Margin="5">
+            <Button x:Name="btnBars"
+                    WidthRequest="150"
+                    Margin="5"
+                  
+                    Clicked="btnBars_Clicked"
+                    Text="Bars" />
+            <Button x:Name="btnAbilityConfig"
+                    Text="Abilities"
+               
+                    WidthRequest="150"
+                    Margin="5"
+                    Clicked="btnAbilityConfig_Clicked" />
+            <Button x:Name="btnSettings"
+                    Text="Keybinds"
+                    WidthRequest="150"
+                    Margin="5"
+                    Clicked="btnSettings_Clicked" />
 
-            <Image Source="dotnet_bot.png"
-                   SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                   HeightRequest="200"
-                   HorizontalOptions="Center" />
+        </StackLayout>
+        <StackLayout Grid.Row="1"
+                    Orientation="Vertical"
+                    Margin="5">
+            <StackLayout Orientation="Vertical"
+                       HorizontalOptions="Center"
+                       Margin="5">
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="Start"
+                             Margin="5">
+                    <CheckBox x:Name="TrackCD"></CheckBox>
+                    <Label>Track CoolDowns?</Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="Start"
+                             Margin="5">
+                    <CheckBox x:Name="onTop"></CheckBox>
+                    <Label>Display alway on top?</Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="Start"
+                             Margin="5">
+                    <CheckBox x:Name="CanResize"                            
+                              CheckedChanged="CanResize_CheckedChanged"                               />
+                    <Label>Can Resize and not ClickThrough (Requires to restart of display window)</Label>
+                </StackLayout>
+                <!--<CheckBox x:Name="ServerCheck"
+                          Content="Activate Server Comms (Contact the DEV to be able to use this!)" />-->
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                        Margin="5">
+                <Picker x:Name="cmbMode"
+                          WidthRequest="200"
+                          Margin="5"
+                          SelectedIndexChanged="cmbMode_SelectedIndexChanged"                     
+                          HeightRequest="45"
+                          VerticalTextAlignment="Center">
+                </Picker>
+                <Button x:Name="btnStartTracker"
+                        Text="StartTracker"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Start"
+                        WidthRequest="150"
+                        Margin="5"
+                        Clicked="btnStartTracker_Clicked" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"
+                        HorizontalOptions="Center">             
+                <Button x:Name="btnClose"
+                        Text="Close"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Start"
+                        WidthRequest="150"
+                        Margin="5"
+                       Clicked="btnClose_Clicked" />
+            </StackLayout>
+        </StackLayout>
 
-            <Label Text="Hello, World!"
-                   SemanticProperties.HeadingLevel="Level1"
-                   FontSize="32"
-                   HorizontalOptions="Center" />
-
-            <Label Text="Welcome to .NET Multi-platform App UI"
-                   SemanticProperties.HeadingLevel="Level2"
-                   SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                   FontSize="18"
-                   HorizontalOptions="Center" />
-
-            <Button x:Name="CounterBtn"
-                    Text="Click me"
-                    SemanticProperties.Hint="Counts the number of times you click"
-                    Clicked="OnCounterClicked"
-                    HorizontalOptions="Center" />
-
-        </VerticalStackLayout>
-    </ScrollView>
-
+    </Grid>
 </ContentPage>
