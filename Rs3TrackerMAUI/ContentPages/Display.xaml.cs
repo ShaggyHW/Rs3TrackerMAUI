@@ -1,5 +1,9 @@
 using Newtonsoft.Json;
+using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Net;
+using System.Text;
+using System.Web;
 using static Rs3TrackerMAUI.Classes.DisplayClasses;
 
 namespace Rs3TrackerMAUI.ContentPages;
@@ -18,41 +22,73 @@ public partial class Display : ContentPage {
     private List<Keypressed> ListPreviousKeys = new List<Keypressed>();
     private bool trackCD;
     private bool pause = false;
+
+    HttpListener listener = new HttpListener();
+
     public Display() {
         InitializeComponent();
         Loaded += Display_Loaded;
 #if WINDOWS
-            mainDir = AppDomain.CurrentDomain.BaseDirectory;
+        mainDir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
 #if MACCATALYST
             mainDir = AppDomain.CurrentDomain.BaseDirectory.Replace("Rs3TrackerMAUI.app/Contents/MonoBundle","");
 #endif
     }
 
+    private void StartListener() {
+        listener.Prefixes.Add("http://localhost:8086/");
+
+        listener.Start();
+
+        while (true) {
+            HttpListenerContext ctx = listener.GetContext();
+            using (HttpListenerResponse resp = ctx.Response) {
+                string endpoint = ctx.Request.Url.LocalPath;
+                using (var reader = new StreamReader(ctx.Request.InputStream,
+                                                            ctx.Request.ContentEncoding)) {
+                    string text = reader.ReadToEnd();
+                }
+
+
+                string data = "OK";
+                byte[] buffer = Encoding.UTF8.GetBytes(data);
+                resp.ContentLength64 = buffer.Length;
+
+                using (Stream ros = resp.OutputStream)
+                    ros.Write(buffer, 0, buffer.Length);
+
+            }
+        }
+    }
+
     private void Display_Loaded(object sender, EventArgs e) {
-        keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(mainDir+"keybinds.json"));
-        keybindBarClasses = JsonConvert.DeserializeObject<List<BarKeybindClass>>(File.ReadAllText(mainDir+"barkeybinds.json"));
-        HookKeyDown(new ResquestInput() {
-            altKey = false,
-            shiftKey = false,
-            metaKey = false,
-            ctrlKey = false,
-            keycode = 40
-        });
-        HookKeyDown(new ResquestInput() {
-            altKey = false,
-            shiftKey = false,
-            metaKey = false,
-            ctrlKey = false,
-            keycode = 40
-        });
-        HookKeyDown(new ResquestInput() {
-            altKey = false,
-            shiftKey = false,
-            metaKey = false,
-            ctrlKey = false,
-            keycode = 40
-        });
+        keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(mainDir + "keybinds.json"));
+        keybindBarClasses = JsonConvert.DeserializeObject<List<BarKeybindClass>>(File.ReadAllText(mainDir + "barkeybinds.json"));
+
+        Task.Factory.StartNew(() => StartListener());
+
+        //HookKeyDown(new ResquestInput() {
+        //    altKey = false,
+        //    shiftKey = false,
+        //    metaKey = false,
+        //    ctrlKey = false,
+        //    keycode = 40
+        //});
+        //HookKeyDown(new ResquestInput() {
+        //    altKey = false,
+        //    shiftKey = false,
+        //    metaKey = false,
+        //    ctrlKey = false,
+        //    keycode = 40
+        //});
+        //HookKeyDown(new ResquestInput() {
+        //    altKey = false,
+        //    shiftKey = false,
+        //    metaKey = false,
+        //    ctrlKey = false,
+        //    keycode = 40
+        //});
     }
 
     private void HookKeyDown(ResquestInput e) {
@@ -158,8 +194,8 @@ public partial class Display : ContentPage {
                 //        ListPreviousKeys.Add(previousKey);
                 //    }
                 //} else {
-                    imageSource = ImageSource.FromFile(mainDir+ability.img);
-                    ListPreviousKeys.Add(previousKey);
+                imageSource = ImageSource.FromFile(mainDir + ability.img);
+                ListPreviousKeys.Add(previousKey);
                 //}
 
                 //Display
@@ -216,7 +252,7 @@ public partial class Display : ContentPage {
                 if (listBarChange != null) {
                     if (!listBarChange.name.ToLower().Equals("pause") && !listBarChange.name.ToLower().Equals("clear")) {
                         style = listBarChange.name;
-                   
+
                         //changeStyle();
                     }
                 }
