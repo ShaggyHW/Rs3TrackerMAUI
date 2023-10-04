@@ -30,8 +30,8 @@ public partial class Display : ContentPage {
     }
 
     private void Display_Loaded(object sender, EventArgs e) {
-        keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(mainDir+"\\keybinds.json"));
-        keybindBarClasses = JsonConvert.DeserializeObject<List<BarKeybindClass>>(File.ReadAllText(mainDir+"\\barkeybinds.json"));
+        keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(mainDir+"keybinds.json"));
+        keybindBarClasses = JsonConvert.DeserializeObject<List<BarKeybindClass>>(File.ReadAllText(mainDir+"barkeybinds.json"));
         HookKeyDown(new ResquestInput() {
             altKey = false,
             shiftKey = false,
