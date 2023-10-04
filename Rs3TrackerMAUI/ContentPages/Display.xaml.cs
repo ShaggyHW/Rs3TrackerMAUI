@@ -5,7 +5,7 @@ using static Rs3TrackerMAUI.Classes.DisplayClasses;
 namespace Rs3TrackerMAUI.ContentPages;
 
 public partial class Display : ContentPage {
-    string mainDir = AppDomain.CurrentDomain.BaseDirectory;
+    string mainDir = "";
     List<KeybindClass> keybindClasses = new List<KeybindClass>();
     List<BarKeybindClass> keybindBarClasses = new List<BarKeybindClass>();
     int imgCounter = 0;
@@ -21,6 +21,12 @@ public partial class Display : ContentPage {
     public Display() {
         InitializeComponent();
         Loaded += Display_Loaded;
+#if WINDOWS
+            mainDir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+#if MACCATALYST
+            mainDir = AppDomain.CurrentDomain.BaseDirectory.Replace("Rs3TrackerMAUI.app/Content/MonoBundle","");
+#endif
     }
 
     private void Display_Loaded(object sender, EventArgs e) {
