@@ -28,6 +28,7 @@ public partial class Display : ContentPage {
     public Display() {
         InitializeComponent();
         Loaded += Display_Loaded;
+        
 #if WINDOWS
         mainDir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
@@ -48,9 +49,11 @@ public partial class Display : ContentPage {
                 using (var reader = new StreamReader(ctx.Request.InputStream,
                                                             ctx.Request.ContentEncoding)) {
                     string text = reader.ReadToEnd();
+                    var key = JsonConvert.DeserializeObject<ResquestInput>(text);
+                    if (!key.keycode.Equals(42) && !key.keycode.Equals(29) && !key.keycode.Equals(3675) && !key.keycode.Equals(56)) {
+                        MainThread.InvokeOnMainThreadAsync(() => HookKeyDown(key));
+                    }
                 }
-
-
                 string data = "OK";
                 byte[] buffer = Encoding.UTF8.GetBytes(data);
                 resp.ContentLength64 = buffer.Length;
@@ -65,7 +68,7 @@ public partial class Display : ContentPage {
     private void Display_Loaded(object sender, EventArgs e) {
         keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(mainDir + "keybinds.json"));
         keybindBarClasses = JsonConvert.DeserializeObject<List<BarKeybindClass>>(File.ReadAllText(mainDir + "barkeybinds.json"));
-
+        stopwatch.Start();
         Task.Factory.StartNew(() => StartListener());
 
         //HookKeyDown(new ResquestInput() {
@@ -166,10 +169,10 @@ public partial class Display : ContentPage {
                 }
 
                 previousKey = ListPreviousKeypressed.Where(a => a.ability.img.Equals(keypressed.ability.img)).Select(a => a).FirstOrDefault();
-                //if (previousKey != null) {
-                //    control = false;
-                //    return;
-                //}
+                if (previousKey != null) {
+                    control = false;
+                    return;
+                }
                 ListKeypressed.Add(keypressed);
                 previousKey = new Keypressed() {
                     timepressed = keypressed.timepressed,
