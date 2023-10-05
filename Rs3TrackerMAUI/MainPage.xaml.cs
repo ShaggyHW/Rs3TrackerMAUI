@@ -7,7 +7,12 @@ using System.Security.Principal;
 namespace Rs3TrackerMAUI;
 
 public partial class MainPage : ContentPage {
-
+#if WINDOWS
+    string  mainDir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+#if MACCATALYST
+    string mainDir = AppDomain.CurrentDomain.BaseDirectory.Replace("Rs3TrackerMAUI.app/Contents/MonoBundle", "");
+#endif
 
     public MainPage() {
         InitializeComponent();
@@ -32,7 +37,7 @@ public partial class MainPage : ContentPage {
             });
 #endif
         var DisplayInfo = DeviceDisplay.MainDisplayInfo;
-       
+
 #if WINDOWS
         Microsoft.UI.Xaml.Window window = (Microsoft.UI.Xaml.Window)App.Current.Windows.First<Window>().Handler.PlatformView;
         IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(window);
@@ -44,11 +49,24 @@ public partial class MainPage : ContentPage {
     }
 
     private void MainPage_Loaded(object sender, EventArgs e) {
-
+        if (!File.Exists(mainDir + "mongoAbilities.json")) {
+            var file = File.Create(mainDir + "mongoAbilities.json");
+            file.Close();
+        }
     }
 
     private void btnAbilityConfig_Clicked(object sender, EventArgs e) {
+        secondWindow = new Window {
+            Page = new AbilityConfigurations {
 
+            },
+            Title = "Abilities",
+            Width = 850,
+            Height = 500
+
+        };
+
+        Application.Current.OpenWindow(secondWindow);
     }
 
     private void btnBars_Clicked(object sender, EventArgs e) {
@@ -82,13 +100,8 @@ public partial class MainPage : ContentPage {
             btnStartTracker.Text = "Start Tracker";
 
         } else {
-            string mainDir = "";
-#if WINDOWS
-            mainDir = AppDomain.CurrentDomain.BaseDirectory;
-#endif
-#if MACCATALYST
-            mainDir = AppDomain.CurrentDomain.BaseDirectory.Replace("Rs3TrackerMAUI.app/Contents/MonoBundle", "");
-#endif
+
+
             if (!File.Exists(mainDir + "keybinds.json")) {
                 DisplayAlert("Alert", "Missing Keybinds", "OK");
                 //MessageBox.Show("Missing Keybinds");

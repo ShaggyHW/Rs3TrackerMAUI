@@ -93,6 +93,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="HtmlAgilityPack" Version="1.11.54" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
@@ -103,6 +104,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="ContentPages\AbilityConfigurations.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="ContentPages\Display.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

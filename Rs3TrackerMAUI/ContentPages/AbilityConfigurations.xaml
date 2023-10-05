@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Rs3TrackerMAUI.ContentPages.AbilityConfigurations"
+             Title="AbilityConfigurations">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="275"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition>
+                </RowDefinition>
+                <RowDefinition Height="70">
+                </RowDefinition>
+            </Grid.RowDefinitions>
+            <Frame Margin="5">
+                <ListView ItemsSource="{Binding}"
+                          x:Name="dgSettings">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.RowSpan="2"
+                                           Source="{Binding img}"
+                                           Aspect="AspectFill"
+                                           HeightRequest="60"
+                                           WidthRequest="60" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding name}"
+                                           FontAttributes="Bold" />
+                                    <Label Grid.Row="1"
+                                           Grid.Column="1"
+                                           Text="{Binding cooldown}"
+                                           FontAttributes="Italic"
+                                           VerticalOptions="End" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Frame>
+            <!--<DataGrid x:Name="dgSettings"
+                      HorizontalAlignment="Left"
+                      Margin="10"
+                      Height="320"
+                      Width="470"
+                      VerticalAlignment="Top"
+                      AutoGenerateColumns="False"
+                      CanUserReorderColumns="False"
+                      CanUserResizeColumns="False"
+                      MinRowHeight="2"
+                      CanUserResizeRows="False"
+                      CanUserAddRows="False"
+                      Grid.Row="0"
+                      BeginningEdit="dgSettings_BeginningEdit">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn x:Name="Name"
+                                        Header="Name"
+                                        Binding="{Binding name}" />
+                    <DataGridTextColumn x:Name="CoolDown"
+                                        Header="CoolDown"
+                                        Binding="{Binding cooldown}" />
+                    <DataGridTextColumn x:Name="Image"
+                                        Header="ImagePath"
+                                        Binding="{Binding img}" />
+                </DataGrid.Columns>
+            </DataGrid>-->
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                         Grid.Row="1">
+                <Button x:Name="btnSave"
+                        Text="Save"
+                        HeightRequest="40"
+                        WidthRequest="100"
+                        Margin="10"
+                        Clicked="btnSave_Clicked" />
+                <Button x:Name="btnDelete"
+                        Text="Delete"
+                        HeightRequest="40"
+                        WidthRequest="100"
+                        Margin="10"
+                        Clicked="btnDelete_Clicked" />
+                <Button x:Name="Import"
+                        Text="Import From WIKI"
+                        HeightRequest="40"
+                        WidthRequest="180"
+                        Margin="10"
+                        Clicked="Import_Clicked" />
+            </StackLayout>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label VerticalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   Grid.Row="0"
+                   Margin="10">ADD ABILITIES MANUALLY</Label>
+
+            <StackLayout Orientation="Vertical"
+                         VerticalOptions="Center"
+                         Grid.Row="1"
+                         Margin="10">
+                <Button x:Name="reloadCombo"
+                        Clicked="reloadCombo_Clicked"
+                        HeightRequest="50"
+                        WidthRequest="200"
+                        Margin="5"
+                        Text="Reload"></Button>
+                <Label Margin="5">SELECT IMAGE (TO ADD NEW IMAGES PLACE THEM IN THE "PERSONAL IMAGES" FOLDER AND RELOAD THE PROGRAM</Label>
+                <!--<ComboBox x:Name="Images"
+                          Margin="5"
+                          SelectionChanged="Images_SelectionChanged"></ComboBox>-->
+                <Picker x:Name="Images"
+                        Margin="5"
+                        WidthRequest="200"
+                        ItemsSource="{Binding}"
+                        ItemDisplayBinding="{Binding Content}"
+                        SelectedItem="{Binding Content}"
+                        SelectedIndexChanged="Images_SelectedIndexChanged"></Picker>
+                <Image x:Name="imgAbil"
+                       HeightRequest="60"
+                       WidthRequest="60"></Image>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"
+                         VerticalOptions="Center"
+                         Grid.Row="2"
+                         WidthRequest="275">
+
+                <Label VerticalOptions="Center"
+                       Margin="10">ABILITY NAME</Label>
+                <Entry x:Name="txtAbilName"
+                       WidthRequest="150"
+                       HeightRequest="30"
+                       Margin="10"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Start"
+                       VerticalTextAlignment="Center"
+                       HorizontalTextAlignment="Center"></Entry>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"
+                         VerticalOptions="Center"
+                         Grid.Row="3">
+                <Label VerticalOptions="Center"
+                       Margin="10">CoolDown (S)</Label>
+                <Entry x:Name="txtCooldDown"
+                       WidthRequest="150"
+                       HeightRequest="30"
+                       Margin="10"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Start"
+                       VerticalTextAlignment="Center"
+                       HorizontalTextAlignment="Center"></Entry>
+            </StackLayout>
+
+            <Button x:Name="btnAdd"
+                    Grid.Row="4"
+                    Text="Add"
+                    HeightRequest="40"
+                    WidthRequest="200"
+                    Clicked="btnAdd_Clicked"></Button>
+        </Grid>
+
+    </Grid>
+</ContentPage>
