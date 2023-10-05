@@ -27,15 +27,15 @@ public partial class Display : ContentPage {
     HttpListener listener = new HttpListener();
 
     public Display() {
-      
+
         InitializeComponent();
         Loaded += Display_Loaded;
-        
+
 #if WINDOWS
         mainDir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
 #if MACCATALYST
-            mainDir = AppDomain.CurrentDomain.BaseDirectory.Replace("Rs3TrackerMAUI.app/Contents/MonoBundle","");
+        mainDir = AppDomain.CurrentDomain.BaseDirectory.Replace("Rs3TrackerMAUI.app/Contents/MonoBundle", "");
 #endif
     }
     public void OnClose() {
@@ -80,7 +80,6 @@ public partial class Display : ContentPage {
                 if (ct.IsCancellationRequested) {
                     // Clean up here, then...
                     ct.ThrowIfCancellationRequested();
-
                 }
             } catch (OperationCanceledException ex) {
                 tokenSource2.Dispose();
@@ -212,8 +211,6 @@ public partial class Display : ContentPage {
                 ListPreviousKeypressed.Add(previousKey);
 
 
-                //Bitmap bitmap = new Bitmap(ability.img);
-                //Bitmap Image;
                 ImageSource imageSource;
                 //if (trackCD) {
                 //    bool onCD = abilCoolDown(ListPreviousKeys, keypressed);
@@ -283,8 +280,7 @@ public partial class Display : ContentPage {
                 if (listBarChange != null) {
                     if (!listBarChange.name.ToLower().Equals("pause") && !listBarChange.name.ToLower().Equals("clear")) {
                         style = listBarChange.name;
-
-                        //changeStyle();
+                        changeStyle();
                     }
                 }
             }
@@ -293,7 +289,10 @@ public partial class Display : ContentPage {
         }
         #endregion
     }
-
+    public void changeStyle() {
+        keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(mainDir + "keybinds.json"));
+        keybindClasses = keybindClasses.Where(p => p.bar.name.ToLower() == style.ToLower() || p.bar.name.ToLower() == "all").Select(p => p).ToList();
+    }
 
     private void moveImgs(int counter) {
         switch (counter) {

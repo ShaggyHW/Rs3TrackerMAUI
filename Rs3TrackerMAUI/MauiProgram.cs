@@ -53,32 +53,7 @@ public static class MauiProgram {
             });
         });
 #endif
-#if WINDOWS
-        //  builder.ConfigureLifecycleEvents(events => {
-        //    events.AddWindows(wndLifeCycleBuilder => {
-        //        wndLifeCycleBuilder.OnWindowCreated(window => {
-        //            IntPtr nativeWindowHandle = WinRT.Interop.WindowNative.GetWindowHandle(window);
-        //            WindowId win32WindowsId = Win32Interop.GetWindowIdFromWindow(nativeWindowHandle);
-        //            AppWindow winuiAppWindow = AppWindow.GetFromWindowId(win32WindowsId);
-        //            if (winuiAppWindow.Presenter is OverlappedPresenter p) {
-        //                //p.Maximize();
-        //                ////p.IsAlwaysOnTop=true;
-        //                //p.IsResizable = false;
-        //                //p.IsMaximizable = false;
-        //                //p.IsMinimizable = false;  const int width = 1920;                        
-        //                int width = 550;
-        //                int height = 320;
-        //                winuiAppWindow.MoveAndResize(new RectInt32(1920 / 2 - width / 2, 1080 / 2 - height / 2, width, height));
-        //                p.IsResizable = false;
-        //            } else {
-        //                const int width = 1920;
-        //                const int height = 1080;
-        //                winuiAppWindow.MoveAndResize(new RectInt32(1920 / 2 - width / 2, 1080 / 2 - height / 2, width, height));
-        //            }
-        //        });
-        //    });
-        //});
-#endif
+
 
 
 
