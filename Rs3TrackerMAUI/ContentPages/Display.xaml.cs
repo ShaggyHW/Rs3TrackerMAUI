@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using static Rs3TrackerMAUI.Classes.DisplayClasses;
 
@@ -20,12 +21,13 @@ public partial class Display : ContentPage {
     public bool control = false;
     private Keypressed previousKey = new Keypressed();
     private List<Keypressed> ListPreviousKeys = new List<Keypressed>();
-    private bool trackCD;
+    //private bool trackCD;
     private bool pause = false;
 
     HttpListener listener = new HttpListener();
 
     public Display() {
+      
         InitializeComponent();
         Loaded += Display_Loaded;
         
@@ -36,40 +38,66 @@ public partial class Display : ContentPage {
             mainDir = AppDomain.CurrentDomain.BaseDirectory.Replace("Rs3TrackerMAUI.app/Contents/MonoBundle","");
 #endif
     }
+    public void OnClose() {
+        tokenSource2.Cancel();
+        listener.Stop();
+        stopwatch.Stop();
+        ListenerTask.Wait();
+        ListenerTask.Dispose();
+        tokenSource2 = null;
+    }
 
-    private void StartListener() {
+    private void StartListener(CancellationToken ct) {
         listener.Prefixes.Add("http://localhost:8086/");
 
         listener.Start();
 
         while (true) {
-            HttpListenerContext ctx = listener.GetContext();
-            using (HttpListenerResponse resp = ctx.Response) {
-                string endpoint = ctx.Request.Url.LocalPath;
-                using (var reader = new StreamReader(ctx.Request.InputStream,
-                                                            ctx.Request.ContentEncoding)) {
-                    string text = reader.ReadToEnd();
-                    var key = JsonConvert.DeserializeObject<ResquestInput>(text);
-                    if (!key.keycode.Equals(42) && !key.keycode.Equals(29) && !key.keycode.Equals(3675) && !key.keycode.Equals(56)) {
-                        MainThread.InvokeOnMainThreadAsync(() => HookKeyDown(key));
+            try {
+
+                HttpListenerContext ctx = listener.GetContext();
+                using (HttpListenerResponse resp = ctx.Response) {
+                    string endpoint = ctx.Request.Url.LocalPath;
+                    using (var reader = new StreamReader(ctx.Request.InputStream,
+                                                                ctx.Request.ContentEncoding)) {
+                        string text = reader.ReadToEnd();
+                        var key = JsonConvert.DeserializeObject<ResquestInput>(text);
+                        if (!key.keycode.Equals(42) && !key.keycode.Equals(29) && !key.keycode.Equals(3675) && !key.keycode.Equals(56)) {
+                            MainThread.InvokeOnMainThreadAsync(() => HookKeyDown(key));
+                        }
                     }
+                    string data = "OK";
+                    byte[] buffer = Encoding.UTF8.GetBytes(data);
+                    resp.ContentLength64 = buffer.Length;
+
+                    using (Stream ros = resp.OutputStream)
+                        ros.Write(buffer, 0, buffer.Length);
+
                 }
-                string data = "OK";
-                byte[] buffer = Encoding.UTF8.GetBytes(data);
-                resp.ContentLength64 = buffer.Length;
 
-                using (Stream ros = resp.OutputStream)
-                    ros.Write(buffer, 0, buffer.Length);
+            } catch (Exception ex) { }
+            try {
+                if (ct.IsCancellationRequested) {
+                    // Clean up here, then...
+                    ct.ThrowIfCancellationRequested();
 
+                }
+            } catch (OperationCanceledException ex) {
+                tokenSource2.Dispose();
+                return;
             }
         }
     }
 
+
+    CancellationTokenSource tokenSource2 = new CancellationTokenSource();
+    Task ListenerTask;
     private void Display_Loaded(object sender, EventArgs e) {
         keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(mainDir + "keybinds.json"));
         keybindBarClasses = JsonConvert.DeserializeObject<List<BarKeybindClass>>(File.ReadAllText(mainDir + "barkeybinds.json"));
         stopwatch.Start();
-        Task.Factory.StartNew(() => StartListener());
+        CancellationToken ct = tokenSource2.Token;
+        ListenerTask = Task.Factory.StartNew(() => StartListener(ct), tokenSource2.Token);
 
         //HookKeyDown(new ResquestInput() {
         //    altKey = false,

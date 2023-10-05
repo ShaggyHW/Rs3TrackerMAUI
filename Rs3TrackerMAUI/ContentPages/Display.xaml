@@ -2,11 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Rs3TrackerMAUI.ContentPages.Display"
-             Title="Display">
+             Title="Display"
+             MaximumHeightRequest="80"
+             MinimumHeightRequest="80"
+             MaximumWidthRequest="800"
+             MinimumWidthRequest="800">
     <Grid>
         <Image x:Name="backgroundImage"
                Source="background.png"
-               Aspect="AspectFill"
+               Aspect="Fill"
                HorizontalOptions="Start" />
         <Grid>
             <Grid.ColumnDefinitions>
