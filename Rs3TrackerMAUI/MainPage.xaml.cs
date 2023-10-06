@@ -8,33 +8,34 @@ namespace Rs3TrackerMAUI;
 
 public partial class MainPage : ContentPage {
 #if WINDOWS
-    string  mainDir = AppDomain.CurrentDomain.BaseDirectory;
+     string  mainDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
 #endif
 #if MACCATALYST
     string mainDir = AppDomain.CurrentDomain.BaseDirectory.Replace("Rs3TrackerMAUI.app/Contents/MonoBundle", "");
 #endif
 
     public MainPage() {
+    
         InitializeComponent();
-        SetMainWindowStartSize(550, 320);
+    
         Loaded += MainPage_Loaded;
     }
     private void SetMainWindowStartSize(int width, int height) {
 #if MACCATALYST
-        Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(
-            nameof(IWindow), (handler, view) => {
-                var size = new CoreGraphics.CGSize(width, height);
-                handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = size;
-                handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = size;
-                Task.Run(() => {
-                    Thread.Sleep(1000);
-                    MainThread.BeginInvokeOnMainThread(() => {
-                        handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = new CoreGraphics.CGSize(100, 100);
-                        handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = new CoreGraphics.CGSize(5000, 5000);
-                    });
-                });
+        //Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(
+        //    nameof(IWindow), (handler, view) => {
+        //        var size = new CoreGraphics.CGSize(width, height);
+        //        handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = size;
+        //        handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = size;
+        //        Task.Run(() => {
+        //            Thread.Sleep(1000);
+        //            MainThread.BeginInvokeOnMainThread(() => {
+        //                handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = new CoreGraphics.CGSize(100, 100);
+        //                handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = new CoreGraphics.CGSize(5000, 5000);
+        //            });
+        //        });
 
-            });
+        //    });
 #endif
         var DisplayInfo = DeviceDisplay.MainDisplayInfo;
 
@@ -53,6 +54,7 @@ public partial class MainPage : ContentPage {
             var file = File.Create(mainDir + "mongoAbilities.json");
             file.Close();
         }
+        SetMainWindowStartSize(550, 320);
     }
 
     private void btnAbilityConfig_Clicked(object sender, EventArgs e) {
@@ -70,7 +72,7 @@ public partial class MainPage : ContentPage {
     }
 
     private void btnBars_Clicked(object sender, EventArgs e) {
-
+        DisplayAlert("OK", mainDir, "ok");
     }
 
     private void btnSettings_Clicked(object sender, EventArgs e) {

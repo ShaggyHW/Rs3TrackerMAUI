@@ -15,6 +15,7 @@
                 <RowDefinition Height="70">
                 </RowDefinition>
             </Grid.RowDefinitions>
+           
             <Frame Margin="5">
                 <ListView ItemsSource="{Binding}"
                           x:Name="dgSettings">

@@ -1,5 +1,6 @@
 using HtmlAgilityPack;
 using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Controls;
 using Newtonsoft.Json;
 using Rs3TrackerMAUI.Classes;
 using System.Runtime;
@@ -24,7 +25,7 @@ public partial class AbilityConfigurations : ContentPage {
         if (!Directory.Exists(mainDir + "PersonalImages"))
             Directory.CreateDirectory(mainDir + "PersonalImages");
         Loaded += AbilityConfigurations_Loaded;
-        
+
     }
 
     private void AbilityConfigurations_Loaded(object sender, EventArgs e) {
@@ -53,17 +54,17 @@ public partial class AbilityConfigurations : ContentPage {
         Images.ItemsSource = null;
         var Abils = Directory.GetFiles(mainDir + "Images", "*.*").Where(s => s.ToLower().EndsWith(".png") || s.ToLower().EndsWith(".jpg")).ToList();
 
-        foreach (var name in Abils) {
-            var index = name.LastIndexOf('\\');
-            PickOptions ComboBoxItem = new PickOptions();
+        //foreach (var name in Abils) {
+        //    var index = name.LastIndexOf('\\');
+        //    PickOptions ComboBoxItem = new PickOptions();
 
-            string finalName = name.Substring(index + 1, name.Length - index - 1);
-            abilitiesList.Add(new Abilities() {
-                Content = finalName.Split('.')[0],
-                Tag = "Images"
-            });
-            //Images.Items.Add(finalName.Split('.')[0]);
-        }
+        //    string finalName = name.Substring(index + 1, name.Length - index - 1);
+        //    abilitiesList.Add(new Abilities() {
+        //        Content = finalName.Split('.')[0],
+        //        Tag = "Images"
+        //    });
+        //    //Images.Items.Add(finalName.Split('.')[0]);
+        //}
 
         Abils = Directory.GetFiles(mainDir + "PersonalImages", "*.*").Where(s => s.ToLower().EndsWith(".png") || s.ToLower().EndsWith(".jpg")).ToList();
         foreach (var name in Abils) {
@@ -73,7 +74,7 @@ public partial class AbilityConfigurations : ContentPage {
             string finalName = name.Substring(index + 1, name.Length - index - 1);
             abilitiesList.Add(new Abilities() {
                 Content = finalName.Split('.')[0],
-                Tag = "Images"
+                Tag = "PersonalImages"
             });
         }
 
@@ -95,8 +96,7 @@ public partial class AbilityConfigurations : ContentPage {
             imgAbil.Source = null;
         }
     }
-    //TODO
-    //UPDATE PATHING
+
     public void GetAbils() {
         WikiParser wikiParser = new WikiParser();
         string Code = wikiParser.getHTMLCode("Abilities");
@@ -411,7 +411,7 @@ public partial class AbilityConfigurations : ContentPage {
         }
 
         //Task.WaitAll(tasks.ToArray());
-        var preImport = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(mainDir+"mongoAbilities.json"));
+        var preImport = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(mainDir + "mongoAbilities.json"));
         if (preImport != null) {
             for (int i = 0; i < preImport.Count(); i++) {
                 if (preImport[i].name.Contains("_Import")) {
@@ -424,9 +424,9 @@ public partial class AbilityConfigurations : ContentPage {
         } else {
             preImport = abils;
         }
-        var stream = File.Create(mainDir+"mongoAbilities.json");
+        var stream = File.Create(mainDir + "mongoAbilities.json");
         stream.Close();
-        File.WriteAllText(mainDir+"mongoAbilities.json", JsonConvert.SerializeObject(preImport, Formatting.Indented));
+        File.WriteAllText(mainDir + "mongoAbilities.json", JsonConvert.SerializeObject(preImport, Formatting.Indented));
 
         LoadCombo();
         var abilsOrder = abils.OrderBy(i => i.name).ToList();
@@ -437,7 +437,7 @@ public partial class AbilityConfigurations : ContentPage {
         //}
         dgSettings.ItemsSource = abilsOrder;
 
-        DisplayAlert("INFO","ABILITIES IMPORTED","OK");
+        DisplayAlert("INFO", "ABILITIES IMPORTED", "OK");
     }
     private void SetAbility(WikiParser wikiParser, string name, string table = "", double cooldown = 0, string imgURL = "") {
         try {
@@ -456,7 +456,7 @@ public partial class AbilityConfigurations : ContentPage {
             //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");                            
             ability.name = table + name + "_Import";
             ability.cooldown = cooldown;
-            ability.img = Path.Combine(mainDir+"Images", fileName + ".png");
+            ability.img = Path.Combine(mainDir + "Images", fileName + ".png");
             abils.Add(ability);
         } catch (Exception ex) {
 
@@ -466,19 +466,25 @@ public partial class AbilityConfigurations : ContentPage {
     private async void Import_Clicked(object sender, EventArgs e) {
         var answer = await DisplayAlert("Warning", "This is going to replace all the abilities! are you sure you want to continue?", "Continue", "Cancel");
         if (answer) {
-            ActivityIndicator activityIndicator = new ActivityIndicator { IsRunning = true };
             GetAbils();
-            activityIndicator.IsRunning = false;
         }
-      
+
     }
 
     private void btnDelete_Clicked(object sender, EventArgs e) {
-
+        if (dgSettings.SelectedItem != null) {
+            var ability = (Ability)dgSettings.SelectedItem;
+            abilities.Remove(ability);
+            dgSettings.ItemsSource = null;
+            dgSettings.ItemsSource = abilities;
+        }
     }
 
     private void btnSave_Clicked(object sender, EventArgs e) {
-
+        if (File.Exists(mainDir + "mongoAbilities.json"))
+            File.Delete(mainDir + "mongoAbilities.json");
+        File.WriteAllText(mainDir + "mongoAbilities.json", JsonConvert.SerializeObject(abilities, Formatting.Indented));
+        DisplayAlert("Saved", "Abilities have been saved", "OK");
     }
 
     private void reloadCombo_Clicked(object sender, EventArgs e) {
@@ -488,6 +494,4 @@ public partial class AbilityConfigurations : ContentPage {
     private void btnAdd_Clicked(object sender, EventArgs e) {
 
     }
-
-
 }
