@@ -17,7 +17,7 @@ public partial class MainPage : ContentPage {
 #endif
     string mainDir = "";
     public MainPage() {
-
+        SetMainWindowStartSize(550, 320);
         InitializeComponent();
 
         Loaded += MainPage_Loaded;
@@ -51,7 +51,7 @@ public partial class MainPage : ContentPage {
     }
 
     private void MainPage_Loaded(object sender, EventArgs e) {
-        SetMainWindowStartSize(550, 320);
+      
         if (!File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
             btnSettings_Clicked(null, null);
         } else {
@@ -60,7 +60,7 @@ public partial class MainPage : ContentPage {
             mainDir = data["DATA"]["FOLDER"];
         }
         if (string.IsNullOrEmpty(mainDir)) {
-            //return;
+            return;
         }
         if (!File.Exists(Path.Combine(mainDir, "mongoAbilities.json"))) {
             var file = File.Create(Path.Combine(mainDir, "mongoAbilities.json"));
