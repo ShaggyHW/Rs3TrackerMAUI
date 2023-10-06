@@ -36,7 +36,7 @@
 	  <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
 	  <GenerateTestArtifacts>True</GenerateTestArtifacts>
 	  <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-	  <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+	  <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
 	  <PackageCertificateThumbprint>207A8EC12DB2045360A63E0A62FA02CAE4BA1F41</PackageCertificateThumbprint>
 	  <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
 	  <AssemblyName>Rs3 Ability Tracker</AssemblyName>
