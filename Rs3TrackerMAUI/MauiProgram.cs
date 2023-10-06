@@ -23,8 +23,8 @@ public static class MauiProgram {
                 Task.Run(() => {
                     Thread.Sleep(1000);
                     MainThread.BeginInvokeOnMainThread(() => {
-                        handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = new CoreGraphics.CGSize(100, 100);
-                        handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = new CoreGraphics.CGSize(5000, 5000);
+                        handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = new CoreGraphics.CGSize(550, 320);
+                        handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = new CoreGraphics.CGSize(550, 320);
                     });
                 });
 
