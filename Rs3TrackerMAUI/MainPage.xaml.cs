@@ -38,7 +38,7 @@ public partial class MainPage : ContentPage {
         //        });
         //    });
 #endif
-       
+
 #if WINDOWS
         Microsoft.UI.Xaml.Window window = (Microsoft.UI.Xaml.Window)App.Current.Windows.First<Window>().Handler.PlatformView;
         IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(window);
@@ -50,19 +50,18 @@ public partial class MainPage : ContentPage {
     }
 
     private void MainPage_Loaded(object sender, EventArgs e) {
+        if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
+            var parser = new FileIniDataParser();
+            IniData data = parser.ReadFile("Configuration.ini");
+            mainDir = data["DATA"]["FOLDER"];
+        }
 
-        //if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
-        //    var parser = new FileIniDataParser();
-        //    IniData data = parser.ReadFile("Configuration.ini");
-        //    mainDir = data["DATA"]["FOLDER"];
-        //} 
-
-        //if (!string.IsNullOrEmpty(mainDir)) {
-        //    if (!File.Exists(Path.Combine(mainDir, "mongoAbilities.json"))) {
-        //        var file = File.Create(Path.Combine(mainDir, "mongoAbilities.json"));
-        //        file.Close();
-        //    }
-        //}     
+        if (!string.IsNullOrEmpty(mainDir)) {
+            if (!File.Exists(Path.Combine(mainDir, "mongoAbilities.json"))) {
+                var file = File.Create(Path.Combine(mainDir, "mongoAbilities.json"));
+                file.Close();
+            }
+        }
     }
     Window ablitiesWindow = null;
     private void btnAbilityConfig_Clicked(object sender, EventArgs e) {
