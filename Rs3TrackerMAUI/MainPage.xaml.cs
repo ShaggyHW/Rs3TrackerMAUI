@@ -51,21 +51,18 @@ public partial class MainPage : ContentPage {
 
     private void MainPage_Loaded(object sender, EventArgs e) {
 
-        if (!File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
-            return;
-        } else {
+        if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
             var parser = new FileIniDataParser();
             IniData data = parser.ReadFile("Configuration.ini");
             mainDir = data["DATA"]["FOLDER"];
-        }
-        if (string.IsNullOrEmpty(mainDir)) {
-            return;
-        }
-        if (!File.Exists(Path.Combine(mainDir, "mongoAbilities.json"))) {
-            var file = File.Create(Path.Combine(mainDir, "mongoAbilities.json"));
-            file.Close();
-        }
+        } 
 
+        if (!string.IsNullOrEmpty(mainDir)) {
+            if (!File.Exists(Path.Combine(mainDir, "mongoAbilities.json"))) {
+                var file = File.Create(Path.Combine(mainDir, "mongoAbilities.json"));
+                file.Close();
+            }
+        }     
     }
     Window ablitiesWindow = null;
     private void btnAbilityConfig_Clicked(object sender, EventArgs e) {
