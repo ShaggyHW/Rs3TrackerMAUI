@@ -10,10 +10,10 @@ namespace Rs3TrackerMAUI;
 
 public partial class MainPage : ContentPage {
 #if WINDOWS
-     string cacheDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
+     string cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif
 #if MACCATALYST
-    string cacheDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
+    string cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif
     string mainDir = "";
     public MainPage() {
