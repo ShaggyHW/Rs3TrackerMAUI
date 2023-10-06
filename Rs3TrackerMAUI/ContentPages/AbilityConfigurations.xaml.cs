@@ -21,16 +21,16 @@ public partial class AbilityConfigurations : ContentPage {
     public AbilityConfigurations() {
         InitializeComponent();
 
-        if (!Directory.Exists(Path.Combine(mainDir , "Images")))
-            Directory.CreateDirectory(Path.Combine(mainDir , "Images"));
+        if (!Directory.Exists(Path.Combine(mainDir, "Images")))
+            Directory.CreateDirectory(Path.Combine(mainDir, "Images"));
         if (!Directory.Exists(Path.Combine(mainDir, "PersonalImages")))
-            Directory.CreateDirectory(Path.Combine(mainDir , "PersonalImages"));
+            Directory.CreateDirectory(Path.Combine(mainDir, "PersonalImages"));
         Loaded += AbilityConfigurations_Loaded;
     }
 
     private void AbilityConfigurations_Loaded(object sender, EventArgs e) {
-        if (File.Exists(Path.Combine(mainDir , "mongoAbilities.json"))) {
-            abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(Path.Combine(mainDir , "mongoAbilities.json")));
+        if (File.Exists(Path.Combine(mainDir, "mongoAbilities.json"))) {
+            abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(Path.Combine(mainDir, "mongoAbilities.json")));
             if (abilities != null) {
                 //var keybinds = abilities.OrderBy(i => i.name).ToList();
                 //foreach (var key in keybinds) {
@@ -65,7 +65,7 @@ public partial class AbilityConfigurations : ContentPage {
         //    //Images.Items.Add(finalName.Split('.')[0]);
         //}
 
-        Abils = Directory.GetFiles(Path.Combine(mainDir , "PersonalImages"), "*.*").Where(s => s.ToLower().EndsWith(".png") || s.ToLower().EndsWith(".jpg")).ToList();
+        Abils = Directory.GetFiles(Path.Combine(mainDir, "PersonalImages"), "*.*").Where(s => s.ToLower().EndsWith(".png") || s.ToLower().EndsWith(".jpg")).ToList();
         foreach (var name in Abils) {
             var index = name.LastIndexOf('\\');
             PickOptions ComboBoxItem = new PickOptions();
@@ -410,7 +410,7 @@ public partial class AbilityConfigurations : ContentPage {
         }
 
         //Task.WaitAll(tasks.ToArray());
-        var preImport = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(Path.Combine(mainDir , "mongoAbilities.json")));
+        var preImport = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(Path.Combine(mainDir, "mongoAbilities.json")));
         if (preImport != null) {
             for (int i = 0; i < preImport.Count(); i++) {
                 if (preImport[i].name.Contains("_Import")) {
@@ -418,22 +418,16 @@ public partial class AbilityConfigurations : ContentPage {
                     i--;
                 }
             }
-
             preImport.AddRange(abils);
         } else {
             preImport = abils;
         }
-        var stream = File.Create(Path.Combine(mainDir , "mongoAbilities.json"));
+        var stream = File.Create(Path.Combine(mainDir, "mongoAbilities.json"));
         stream.Close();
-        File.WriteAllText(Path.Combine(mainDir ,"mongoAbilities.json"), JsonConvert.SerializeObject(preImport, Formatting.Indented));
-
+        File.WriteAllText(Path.Combine(mainDir, "mongoAbilities.json"), JsonConvert.SerializeObject(preImport, Formatting.Indented));
         LoadCombo();
         var abilsOrder = abils.OrderBy(i => i.name).ToList();
-        //TODO
-        //dgSettings.Items.Clear();
-        //foreach (var ab in abilsOrder) {
-        //    dgSettings.Items.Add(ab);
-        //}
+      
         dgSettings.ItemsSource = abilsOrder;
 
         DisplayAlert("INFO", "ABILITIES IMPORTED", "OK");
@@ -442,20 +436,12 @@ public partial class AbilityConfigurations : ContentPage {
         try {
             Ability ability = new Ability();
             string fileName = "";
-            //if (string.IsNullOrEmpty(imgURL)) {
-            //    if (table.Equals("Spells_"))
-            //        fileName = wikiParser.SaveImage(name + "_icon");
-            //    else
-            //        fileName = wikiParser.SaveImage(name);
-            //} else {
-                fileName = wikiParser.SaveImageFROMURL(name, imgURL);
-            //}
+            fileName = wikiParser.SaveImageFROMURL(name, imgURL);
             if (string.IsNullOrEmpty(fileName))
                 return;
             //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");                            
             ability.name = table + name + "_Import";
-            ability.cooldown = cooldown;
-            ability.img = Path.Combine(mainDir , "Images", fileName + ".png");
+            ability.img = Path.Combine(mainDir, "Images", fileName + ".png");
             abils.Add(ability);
         } catch (Exception ex) {
 
@@ -467,7 +453,6 @@ public partial class AbilityConfigurations : ContentPage {
         if (answer) {
             GetAbils();
         }
-
     }
 
     private void btnDelete_Clicked(object sender, EventArgs e) {
@@ -480,9 +465,9 @@ public partial class AbilityConfigurations : ContentPage {
     }
 
     private void btnSave_Clicked(object sender, EventArgs e) {
-        if (File.Exists(Path.Combine(mainDir , "mongoAbilities.json")))
-            File.Delete(Path.Combine(mainDir , "mongoAbilities.json"));
-        File.WriteAllText(Path.Combine(mainDir , "mongoAbilities.json"), JsonConvert.SerializeObject(abilities, Formatting.Indented));
+        if (File.Exists(Path.Combine(mainDir, "mongoAbilities.json")))
+            File.Delete(Path.Combine(mainDir, "mongoAbilities.json"));
+        File.WriteAllText(Path.Combine(mainDir, "mongoAbilities.json"), JsonConvert.SerializeObject(abilities, Formatting.Indented));
         DisplayAlert("Saved", "Abilities have been saved", "OK");
     }
 

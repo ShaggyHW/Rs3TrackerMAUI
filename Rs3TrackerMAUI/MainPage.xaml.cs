@@ -1,4 +1,6 @@
-﻿using Microsoft.Maui.Controls.PlatformConfiguration;
+﻿using IniParser;
+using IniParser.Model;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Devices;
 using Microsoft.Maui.Dispatching;
 using Rs3TrackerMAUI.ContentPages;
@@ -8,16 +10,16 @@ namespace Rs3TrackerMAUI;
 
 public partial class MainPage : ContentPage {
 #if WINDOWS
-     string  mainDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
+     string cacheDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
 #endif
 #if MACCATALYST
-    string mainDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
+    string cacheDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
 #endif
-
+    string mainDir = "";
     public MainPage() {
-    
+
         InitializeComponent();
-    
+
         Loaded += MainPage_Loaded;
     }
     private void SetMainWindowStartSize(int width, int height) {
@@ -49,32 +51,39 @@ public partial class MainPage : ContentPage {
     }
 
     private void MainPage_Loaded(object sender, EventArgs e) {
-        if (!File.Exists(Path.Combine(mainDir , "mongoAbilities.json"))) {
+        SetMainWindowStartSize(550, 320);
+        if (!File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
+            btnSettings_Clicked(null, null);
+        } else {
+            var parser = new FileIniDataParser();
+            IniData data = parser.ReadFile("Configuration.ini");
+            mainDir = data["DATA"]["FOLDER"];
+        }
+        if (string.IsNullOrEmpty(mainDir)) {
+            return;
+        }
+        if (!File.Exists(Path.Combine(mainDir, "mongoAbilities.json"))) {
             var file = File.Create(Path.Combine(mainDir, "mongoAbilities.json"));
             file.Close();
         }
-        SetMainWindowStartSize(550, 320);
+     
     }
-
+    Window ablitiesWindow = null;
     private void btnAbilityConfig_Clicked(object sender, EventArgs e) {
-        secondWindow = new Window {
+        ablitiesWindow = new Window {
             Page = new AbilityConfigurations {
-                
+
             },
             Title = "Abilities",
             Width = 850,
             Height = 500
         };
 
-        Application.Current.OpenWindow(secondWindow);
+        Application.Current.OpenWindow(ablitiesWindow);
     }
 
     private void btnBars_Clicked(object sender, EventArgs e) {
-        DisplayAlert("OK", mainDir, "ok");
-    }
-
-    private void btnSettings_Clicked(object sender, EventArgs e) {
-
+        DisplayAlert("OK", Microsoft.Maui.Storage.FileSystem.CacheDirectory, "ok");
     }
 
     private void btnServer_Clicked(object sender, EventArgs e) {
@@ -85,23 +94,15 @@ public partial class MainPage : ContentPage {
         Application.Current.Quit();
     }
 
-    Window secondWindow = null;
+    Window displayWindow = null;
     private void btnStartTracker_Clicked(object sender, EventArgs e) {
-        if (secondWindow != null) {
-            //displayX = display.Left;
-            //displayY = display.Top;
-            //DisplayHeight = display.Height;
-            //DisplayWidth = display.Width;
-            //Application.CloseWindow(secondWindow);
-            var x = secondWindow.Page as Display;
+        if (displayWindow != null) {       
+            var x = displayWindow.Page as Display;
             x.OnClose();
-            Application.Current?.CloseWindow(secondWindow);
-            secondWindow = null;
+            Application.Current?.CloseWindow(displayWindow);
+            displayWindow = null;
             btnStartTracker.Text = "Start Tracker";
-
         } else {
-
-
             if (!File.Exists(mainDir + "keybinds.json")) {
                 DisplayAlert("Alert", "Missing Keybinds", "OK");
                 //MessageBox.Show("Missing Keybinds");
@@ -122,17 +123,15 @@ public partial class MainPage : ContentPage {
             //display.Height = DisplayHeight;
             //display.Width = DisplayWidth;
             //display.Show();
-            secondWindow = new Window {
-                Page = new Display {
+            displayWindow = new Window {
+                Page = new Display() {
 
                 },
                 Title = "Display",
                 Width = 800,
                 Height = 80
-
             };
-
-            Application.Current.OpenWindow(secondWindow);
+            Application.Current.OpenWindow(displayWindow);
         }
     }
 
@@ -141,6 +140,25 @@ public partial class MainPage : ContentPage {
     }
 
     private void cmbMode_SelectedIndexChanged(object sender, EventArgs e) {
+
+    }
+    static Window settingsWindow = null;
+    private void btnSettings_Clicked(object sender, EventArgs e) {
+        settingsWindow = new Window {
+            Page = new Settings {
+
+            },
+            Title = "Settings",
+            Width = 850,
+            Height = 500
+        };
+        Application.Current.OpenWindow(settingsWindow);
+    }
+    public static void CloseSettings() {
+        Application.Current?.CloseWindow(settingsWindow);     
+    }
+
+    private void btnKeybinds_Clicked(object sender, EventArgs e) {
 
     }
 }

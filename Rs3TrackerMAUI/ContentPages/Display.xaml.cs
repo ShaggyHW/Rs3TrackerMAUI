@@ -27,10 +27,8 @@ public partial class Display : ContentPage {
     HttpListener listener = new HttpListener();
 
     public Display() {
-
         InitializeComponent();
         Loaded += Display_Loaded;
-
 #if WINDOWS
         mainDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
 #endif
@@ -92,8 +90,8 @@ public partial class Display : ContentPage {
     CancellationTokenSource tokenSource2 = new CancellationTokenSource();
     Task ListenerTask;
     private void Display_Loaded(object sender, EventArgs e) {
-        keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(mainDir + "keybinds.json"));
-        keybindBarClasses = JsonConvert.DeserializeObject<List<BarKeybindClass>>(File.ReadAllText(mainDir + "barkeybinds.json"));
+        keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(Path.Combine(mainDir , "keybinds.json")));
+        keybindBarClasses = JsonConvert.DeserializeObject<List<BarKeybindClass>>(File.ReadAllText(Path.Combine(mainDir , "barkeybinds.json")));
         stopwatch.Start();
         CancellationToken ct = tokenSource2.Token;
         ListenerTask = Task.Factory.StartNew(() => StartListener(ct), tokenSource2.Token);
@@ -162,8 +160,7 @@ public partial class Display : ContentPage {
                 keypressed.modifier = modifier;
                 keypressed.key = e.keycode.ToString();
                 keypressed.ability.name = ability.name;
-                keypressed.ability.img = ability.img;
-                keypressed.ability.cooldown = ability.cooldown;
+                keypressed.ability.img = ability.img;             
                 keypressed.timepressed = stopwatch.Elapsed.TotalMilliseconds;
 
                 for (int i = 0; i < ListPreviousKeypressed.Count; i++) {
@@ -201,7 +198,7 @@ public partial class Display : ContentPage {
                 //        ListPreviousKeys.Add(previousKey);
                 //    }
                 //} else {
-                imageSource = ImageSource.FromFile(mainDir + ability.img);
+                imageSource = ImageSource.FromFile(ability.img);
                 ListPreviousKeys.Add(previousKey);
                 //}
 
@@ -264,12 +261,11 @@ public partial class Display : ContentPage {
                 }
             }
             control = false;
-
         }
         #endregion
     }
     public void changeStyle() {
-        keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(mainDir + "keybinds.json"));
+        keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(Path.Combine(mainDir + "keybinds.json")));
         keybindClasses = keybindClasses.Where(p => p.bar.name.ToLower() == style.ToLower() || p.bar.name.ToLower() == "all").Select(p => p).ToList();
     }
 

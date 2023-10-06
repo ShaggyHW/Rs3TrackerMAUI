@@ -1,10 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"        
-             x:Class="Rs3TrackerMAUI.MainPage"
-         
-         >
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             x:Class="Rs3TrackerMAUI.MainPage">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -12,65 +10,43 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <StackLayout  Orientation="Horizontal"
-                  HorizontalOptions="Center"
-                     Grid.Row="0"
-                     Margin="5">
+                      HorizontalOptions="Center"
+                      Grid.Row="0"
+                      Margin="5">
+            <Button x:Name="btnSettings"
+                    WidthRequest="150"
+                    Margin="5"
+                    Clicked="btnSettings_Clicked"
+                    Text="Settings" />
             <Button x:Name="btnBars"
                     WidthRequest="150"
                     Margin="5"
-                  
                     Clicked="btnBars_Clicked"
                     Text="Bars" />
             <Button x:Name="btnAbilityConfig"
                     Text="Abilities"
-               
                     WidthRequest="150"
                     Margin="5"
                     Clicked="btnAbilityConfig_Clicked" />
-            <Button x:Name="btnSettings"
+            <Button x:Name="btnKeybinds"
                     Text="Keybinds"
                     WidthRequest="150"
                     Margin="5"
-                    Clicked="btnSettings_Clicked" />
+                    Clicked="btnKeybinds_Clicked" />
 
         </StackLayout>
         <StackLayout Grid.Row="1"
-                    Orientation="Vertical"
-                    Margin="5">
-            <StackLayout Orientation="Vertical"
-                       HorizontalOptions="Center"
-                       Margin="5">
-                <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="Start"
-                             Margin="5">
-                    <CheckBox x:Name="TrackCD"></CheckBox>
-                    <Label>Track Cooldowns?</Label>
-                </StackLayout>
-                <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="Start"
-                             Margin="5">
-                    <CheckBox x:Name="onTop"></CheckBox>
-                    <Label>Display alway on top?</Label>
-                </StackLayout>
-                <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="Start"
-                             Margin="5">
-                    <CheckBox x:Name="CanResize"                            
-                              CheckedChanged="CanResize_CheckedChanged"                               />
-                    <Label>Can Resize and not Clickthrough (Requires to restart of display window)</Label>
-                </StackLayout>
-                <!--<CheckBox x:Name="ServerCheck"
-                          Content="Activate Server Comms (Contact the DEV to be able to use this!)" />-->
-            </StackLayout>
+                     Orientation="Vertical"
+                     Margin="5">          
             <StackLayout Orientation="Horizontal"
                          HorizontalOptions="Center"
-                        Margin="5">
+                         Margin="5">
                 <Picker x:Name="cmbMode"
-                          WidthRequest="200"
-                          Margin="5"
-                          SelectedIndexChanged="cmbMode_SelectedIndexChanged"                     
-                          HeightRequest="45"
-                          VerticalTextAlignment="Center">
+                        WidthRequest="200"
+                        Margin="5"
+                        SelectedIndexChanged="cmbMode_SelectedIndexChanged"
+                        HeightRequest="45"
+                        VerticalTextAlignment="Center">
                 </Picker>
                 <Button x:Name="btnStartTracker"
                         Text="StartTracker"
@@ -81,14 +57,14 @@
                         Clicked="btnStartTracker_Clicked" />
             </StackLayout>
             <StackLayout Orientation="Horizontal"
-                        HorizontalOptions="Center">             
+                         HorizontalOptions="Center">
                 <Button x:Name="btnClose"
                         Text="Close"
                         HorizontalOptions="Center"
                         VerticalOptions="Start"
                         WidthRequest="150"
                         Margin="5"
-                       Clicked="btnClose_Clicked" />
+                        Clicked="btnClose_Clicked" />
             </StackLayout>
         </StackLayout>
 

@@ -22,8 +22,7 @@ namespace Rs3TrackerMAUI.Classes {
         }
 
         public class Ability {
-            public string name { get; set; }
-            public double cooldown { get; set; }
+            public string name { get; set; }           
             public string img { get; set; }
         }
 

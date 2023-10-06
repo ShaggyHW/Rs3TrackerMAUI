@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Rs3TrackerMAUI.ContentPages.Settings"
+             Title="Settings">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackLayout  Orientation="Vertical"
+                      HorizontalOptions="Center"
+                      Grid.Row="0"
+                      Margin="5">
+            <StackLayout Orientation="Horizontal"
+                         Margin="5">
+                <Label Text="Data Folder"
+                       VerticalOptions="Center"
+                       Margin="5"
+                       WidthRequest="100"></Label>
+                <Entry x:Name="txtDataFolder"
+                       VerticalOptions="Center"
+                       WidthRequest="200"
+                       MaximumWidthRequest="200"
+                       Margin="5"></Entry>
+                <Button x:Name="btnDataFolder"
+                        Text="Folder"
+                        VerticalOptions="Center"                      
+                        Margin="5"
+                        Clicked="btnDataFolder_Clicked"></Button>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"
+                         Margin="5">
+                <Label Text="Listener IP"
+                       VerticalOptions="Center"
+                       Margin="5"
+                       WidthRequest="100"></Label>                
+                <Entry x:Name="txtIP"
+                       VerticalOptions="Center"
+                       WidthRequest="200"
+                       MaximumWidthRequest="200"
+                       Margin="5"></Entry>              
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"
+                         Margin="5">
+                <Label Text="Listener Port"
+                       VerticalOptions="Center"
+                       Margin="5"
+                       WidthRequest="100"></Label>
+                <Entry x:Name="txtPort"
+                       VerticalOptions="Center"
+                       WidthRequest="200"
+                       MaximumWidthRequest="200"
+                       Margin="5"></Entry>
+            </StackLayout>
+
+        </StackLayout>
+        <StackLayout Grid.Row="1"
+                     Orientation="Horizontal"
+                     Margin="5"
+                     HorizontalOptions="Center">
+            <Button x:Name="btnSave"
+                    Text="Save"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Start"
+                    WidthRequest="150"
+                    Margin="5"
+                    Clicked="btnSave_Clicked" />
+            <Button x:Name="btnClose"
+                    Text="Close"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Start"
+                    WidthRequest="150"
+                    Margin="5"
+                    Clicked="btnClose_Clicked" />
+
+        </StackLayout>
+
+    </Grid>
+</ContentPage>

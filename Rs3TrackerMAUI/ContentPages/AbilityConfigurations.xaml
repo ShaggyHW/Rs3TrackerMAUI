@@ -14,8 +14,7 @@
                 </RowDefinition>
                 <RowDefinition Height="70">
                 </RowDefinition>
-            </Grid.RowDefinitions>
-           
+            </Grid.RowDefinitions>           
             <Frame Margin="5">
                 <ListView ItemsSource="{Binding}"
                           x:Name="dgSettings">
@@ -38,12 +37,7 @@
                                            WidthRequest="60" />
                                     <Label Grid.Column="1"
                                            Text="{Binding name}"
-                                           FontAttributes="Bold" />
-                                    <Label Grid.Row="1"
-                                           Grid.Column="1"
-                                           Text="{Binding cooldown}"
-                                           FontAttributes="Italic"
-                                           VerticalOptions="End" />
+                                           FontAttributes="Bold" />                               
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
