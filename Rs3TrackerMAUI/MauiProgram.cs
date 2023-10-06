@@ -20,6 +20,7 @@ public static class MauiProgram {
                 var size = new CoreGraphics.CGSize(550, 320);
                 handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = size;
                 handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = size;
+                handler.PlatformView.WindowScene.Titlebar.TitleVisibility = UIKit.UITitlebarTitleVisibility.Hidden;
                 Task.Run(() => {
                     Thread.Sleep(1000);
                     MainThread.BeginInvokeOnMainThread(() => {
