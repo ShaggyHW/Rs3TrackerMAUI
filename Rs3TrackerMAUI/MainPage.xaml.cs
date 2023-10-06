@@ -24,19 +24,19 @@ public partial class MainPage : ContentPage {
     }
     private void SetMainWindowStartSize(int width, int height) {
 #if MACCATALYST
-        Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(
-            nameof(IWindow), (handler, view) => {
-                var size = new CoreGraphics.CGSize(width, height);
-                handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = size;
-                handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = size;
-                Task.Run(() => {
-                    Thread.Sleep(1000);
-                    MainThread.BeginInvokeOnMainThread(() => {
-                        handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = new CoreGraphics.CGSize(100, 100);
-                        handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = new CoreGraphics.CGSize(5000, 5000);
-                    });
-                });
-            });
+        //Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(
+        //    nameof(IWindow), (handler, view) => {
+        //        var size = new CoreGraphics.CGSize(width, height);
+        //        handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = size;
+        //        handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = size;
+        //        Task.Run(() => {
+        //            Thread.Sleep(1000);
+        //            MainThread.BeginInvokeOnMainThread(() => {
+        //                handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = new CoreGraphics.CGSize(100, 100);
+        //                handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = new CoreGraphics.CGSize(5000, 5000);
+        //            });
+        //        });
+        //    });
 #endif
         var DisplayInfo = DeviceDisplay.MainDisplayInfo;
 
