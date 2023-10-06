@@ -52,7 +52,7 @@ public partial class MainPage : ContentPage {
     private void MainPage_Loaded(object sender, EventArgs e) {
         if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
             var parser = new FileIniDataParser();
-            IniData data = parser.ReadFile("Configuration.ini");
+            IniData data = parser.ReadFile(Path.Combine(cacheDir, "Configuration.ini"));
             mainDir = data["DATA"]["FOLDER"];
         }
 
