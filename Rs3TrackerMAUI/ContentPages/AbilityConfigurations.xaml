@@ -49,34 +49,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-            </Frame>
-            <!--<DataGrid x:Name="dgSettings"
-                      HorizontalAlignment="Left"
-                      Margin="10"
-                      Height="320"
-                      Width="470"
-                      VerticalAlignment="Top"
-                      AutoGenerateColumns="False"
-                      CanUserReorderColumns="False"
-                      CanUserResizeColumns="False"
-                      MinRowHeight="2"
-                      CanUserResizeRows="False"
-                      CanUserAddRows="False"
-                      Grid.Row="0"
-                      BeginningEdit="dgSettings_BeginningEdit">
-
-                <DataGrid.Columns>
-                    <DataGridTextColumn x:Name="Name"
-                                        Header="Name"
-                                        Binding="{Binding name}" />
-                    <DataGridTextColumn x:Name="CoolDown"
-                                        Header="CoolDown"
-                                        Binding="{Binding cooldown}" />
-                    <DataGridTextColumn x:Name="Image"
-                                        Header="ImagePath"
-                                        Binding="{Binding img}" />
-                </DataGrid.Columns>
-            </DataGrid>-->
+            </Frame>         
             <StackLayout Orientation="Horizontal"
                          HorizontalOptions="Center"
                          Grid.Row="1">

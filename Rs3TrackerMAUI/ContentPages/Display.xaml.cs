@@ -32,10 +32,10 @@ public partial class Display : ContentPage {
         Loaded += Display_Loaded;
 
 #if WINDOWS
-        mainDir = AppDomain.CurrentDomain.BaseDirectory;
+        mainDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
 #endif
 #if MACCATALYST
-        mainDir = AppDomain.CurrentDomain.BaseDirectory.Replace("Rs3TrackerMAUI.app/Contents/MonoBundle", "");
+        mainDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
 #endif
     }
     public void OnClose() {
@@ -98,27 +98,6 @@ public partial class Display : ContentPage {
         CancellationToken ct = tokenSource2.Token;
         ListenerTask = Task.Factory.StartNew(() => StartListener(ct), tokenSource2.Token);
 
-        //HookKeyDown(new ResquestInput() {
-        //    altKey = false,
-        //    shiftKey = false,
-        //    metaKey = false,
-        //    ctrlKey = false,
-        //    keycode = 40
-        //});
-        //HookKeyDown(new ResquestInput() {
-        //    altKey = false,
-        //    shiftKey = false,
-        //    metaKey = false,
-        //    ctrlKey = false,
-        //    keycode = 40
-        //});
-        //HookKeyDown(new ResquestInput() {
-        //    altKey = false,
-        //    shiftKey = false,
-        //    metaKey = false,
-        //    ctrlKey = false,
-        //    keycode = 40
-        //});
     }
 
     private void HookKeyDown(ResquestInput e) {
