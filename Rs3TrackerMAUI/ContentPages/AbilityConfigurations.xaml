@@ -21,7 +21,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Grid Padding="5">
+                                <Grid Padding="2">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -107,7 +107,6 @@
                          VerticalOptions="Center"
                          Grid.Row="2"
                          WidthRequest="275">
-
                 <Label VerticalOptions="Center"
                        Margin="10">ABILITY NAME</Label>
                 <Entry x:Name="txtAbilName"

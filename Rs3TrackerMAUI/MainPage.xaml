@@ -45,7 +45,10 @@
                         WidthRequest="200"
                         Margin="5"                       
                         HeightRequest="45"
-                        VerticalTextAlignment="Center">
+                        VerticalTextAlignment="Center"
+                        ItemsSource="{Binding}"
+                        ItemDisplayBinding="{Binding name}"
+                        SelectedItem="{Binding name}">
                 </Picker>
                 <Button x:Name="btnStartTracker"
                         Text="StartTracker"

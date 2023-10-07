@@ -21,7 +21,6 @@ public partial class MainPage : ContentPage {
     public MainPage() {
         SetMainWindowStartSize(650, 320);
         InitializeComponent();
-
         Loaded += MainPage_Loaded;
     }
     private void SetMainWindowStartSize(int width, int height) {
@@ -48,7 +47,6 @@ public partial class MainPage : ContentPage {
         Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
         appWindow.Resize(new Windows.Graphics.SizeInt32(width,height));      
 #endif
-
     }
 
     private void MainPage_Loaded(object sender, EventArgs e) {
@@ -57,29 +55,25 @@ public partial class MainPage : ContentPage {
             IniData data = parser.ReadFile(Path.Combine(cacheDir, "Configuration.ini"));
             mainDir = data["DATA"]["FOLDER"];
         }
-
         if (!string.IsNullOrEmpty(mainDir)) {
             if (!File.Exists(Path.Combine(mainDir, "mongoAbilities.json"))) {
                 var file = File.Create(Path.Combine(mainDir, "mongoAbilities.json"));
                 file.Close();
             }
-            if (File.Exists(".\\Bars.json")) {
+            if (File.Exists(Path.Combine(mainDir, "Bars.json"))) {
                 var bars = JsonConvert.DeserializeObject<List<BarClass>>(File.ReadAllText(Path.Combine(mainDir, "Bars.json")));
-                //foreach (var bar in bars) {
-                //    ComboBoxItem ComboBoxItem = new ComboBoxItem();
-                //    ComboBoxItem.Content = bar.name;
-                //    cmbMode.Items.Add(ComboBoxItem);
-                //}
                 cmbMode.ItemsSource = bars;
             }
         }
     }
+    private void btnClose_Clicked(object sender, EventArgs e) {
+        Application.Current.Quit();
+    }
+
     static Window ablitiesWindow = null;
     private void btnAbilityConfig_Clicked(object sender, EventArgs e) {
         ablitiesWindow = new Window {
-            Page = new AbilityConfigurations {
-
-            },
+            Page = new AbilityConfigurations { },
             Title = "Abilities",
             Width = 850,
             Height = 500
@@ -89,13 +83,20 @@ public partial class MainPage : ContentPage {
     }
     public static void CloseAbilityConfigMenu() {
         Application.Current?.CloseWindow(ablitiesWindow);
-    }
-    private void btnBars_Clicked(object sender, EventArgs e) {
-        DisplayAlert("OK", Microsoft.Maui.Storage.FileSystem.CacheDirectory, "ok");
-    }
 
-    private void btnClose_Clicked(object sender, EventArgs e) {
-        Application.Current.Quit();
+    }
+    static Window barsWindow = null;
+    private void btnBars_Clicked(object sender, EventArgs e) {
+        barsWindow = new Window {
+            Page = new BarConfigurations { },
+            Title = "Bars",
+            Width = 760,
+            Height =270
+        };
+        Application.Current.OpenWindow(barsWindow);
+    }
+    public static void CloseBarsConfigMenu() {
+        Application.Current?.CloseWindow(barsWindow);
     }
 
     Window displayWindow = null;
@@ -138,19 +139,17 @@ public partial class MainPage : ContentPage {
         }
     }
 
-   
     static Window settingsWindow = null;
     private void btnSettings_Clicked(object sender, EventArgs e) {
         settingsWindow = new Window {
-            Page = new Settings {
-
-            },
+            Page = new Settings { },
             Title = "Settings",
             Width = 450,
             Height = 250
         };
         Application.Current.OpenWindow(settingsWindow);
     }
+
     public static void CloseSettingsMenu() {
         Application.Current?.CloseWindow(settingsWindow);
     }

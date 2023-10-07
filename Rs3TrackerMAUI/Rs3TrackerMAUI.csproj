@@ -109,6 +109,9 @@
 	  <MauiXaml Update="ContentPages\AbilityConfigurations.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="ContentPages\BarConfigurations.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="ContentPages\Display.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

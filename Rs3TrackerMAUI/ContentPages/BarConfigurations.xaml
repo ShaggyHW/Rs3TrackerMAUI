@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Rs3TrackerMAUI.ContentPages.BarConfigurations"
+             Title="BarConfigurations">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackLayout Grid.Row="0">
+            <!--<DataGrid x:Name="dgSettings"
+                      HorizontalAlignment="Left"
+                      Margin="10"
+                      Height="337"
+                      Width="376"
+                      VerticalAlignment="Top"
+                      AutoGenerateColumns="False"
+                      CanUserReorderColumns="False"
+                      CanUserResizeColumns="False"
+                      MinRowHeight="2"
+                      CanUserResizeRows="False"
+                      CanUserAddRows="False"
+                      BeginningEdit="dgSettings_BeginningEdit">
+                <DataGrid.Columns>
+                    <DataGridTextColumn x:Name="Name"
+                                        Header="Name"
+                                        Binding="{Binding name}" />
+                </DataGrid.Columns>
+            </DataGrid>-->
+            <Frame Margin="5"
+                   HeightRequest="200">
+                <ListView ItemsSource="{Binding}"
+                          x:Name="dgSettings">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Label Grid.Column="1"
+                                       Text="{Binding name}"
+                                       Padding="2"
+                                       FontAttributes="Bold" />
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Frame>
+
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center">
+                <Button x:Name="btnSave"
+                        Margin="10"
+                        HeightRequest="40"
+                        WidthRequest="150"
+                        Clicked="btnSave_Clicked"
+                        Text="Save" />
+                <Button x:Name="btnDelete"
+                        Margin="10"
+                        HeightRequest="40"
+                        WidthRequest="150"
+                        Text="Delete Selected"
+                        Clicked="btnDelete_Clicked"></Button>
+            </StackLayout>
+        </StackLayout>
+        <Grid Grid.Column="1">
+            <StackLayout Orientation="Vertical"
+                         Margin="5">
+                <StackLayout Orientation="Horizontal">
+                    <Label VerticalTextAlignment="Center"
+                           HeightRequest="50">Name</Label>
+                    <Entry x:Name="txtBarName"
+                           VerticalTextAlignment="Center"
+                           HeightRequest="50"
+                           WidthRequest="300"
+                           Margin="10"></Entry>
+                </StackLayout>
+                <Button x:Name="btnAdd"
+                        HeightRequest="40"
+                        WidthRequest="200"
+                        Text="Add Bar"
+                        Clicked="btnAdd_Clicked"></Button>
+                <Label>CREATE ATLEAST 1 BAR!</Label>
+                <Label>NAME: CLEAR</Label>
+                <Label>As a keybind it will clear the bar!</Label>
+                <Label>NAME: Pause</Label>
+                <Label>As a keybind it will pause the display!</Label>
+                <Button x:Name="btnClose"
+                        HeightRequest="40"
+                        WidthRequest="200"
+                        Text="Close"
+                        Clicked="btnClose_Clicked"></Button>
+            </StackLayout>
+
+        </Grid>
+    </Grid>
+</ContentPage>
