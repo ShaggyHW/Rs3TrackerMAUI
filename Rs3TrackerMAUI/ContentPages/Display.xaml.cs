@@ -26,15 +26,11 @@ public partial class Display : ContentPage {
 
     HttpListener listener = new HttpListener();
 
-    public Display() {
+    public Display(string _style) {
         InitializeComponent();
+        this.style = _style;
         Loaded += Display_Loaded;
-#if WINDOWS
-        mainDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
-#endif
-#if MACCATALYST
-        mainDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
-#endif
+
     }
     public void OnClose() {
         tokenSource2.Cancel();

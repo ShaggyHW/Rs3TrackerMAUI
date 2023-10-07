@@ -14,18 +14,20 @@ public static class MauiProgram {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
+        int width = 650;
+        int height = 320;
 #if MACCATALYST
         Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(
             nameof(IWindow), (handler, view) => {
-                var size = new CoreGraphics.CGSize(550, 320);
+                var size = new CoreGraphics.CGSize(width, height);
                 handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = size;
                 handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = size;
                 handler.PlatformView.WindowScene.Titlebar.TitleVisibility = UIKit.UITitlebarTitleVisibility.Hidden;
                 Task.Run(() => {
                     Thread.Sleep(1000);
                     MainThread.BeginInvokeOnMainThread(() => {
-                        handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = new CoreGraphics.CGSize(550, 320);
-                        handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = new CoreGraphics.CGSize(550, 320);
+                        handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = new CoreGraphics.CGSize(width, height);
+                        handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = new CoreGraphics.CGSize(width, height);
                     });
                 });
 
@@ -45,8 +47,7 @@ public static class MauiProgram {
                         case Microsoft.UI.Windowing.OverlappedPresenter overlappedPresenter:                          
                             overlappedPresenter.SetBorderAndTitleBar(false, false);
                             overlappedPresenter.IsResizable = false;
-                            int width = 550;
-                            int height = 320;
+                          
                             //var DisplayInfo = DeviceDisplay.MainDisplayInfo;
                             //appWindow.MoveAndResize(new Windows.Graphics.RectInt32((int)DisplayInfo.Width / 2 - width / 2, (int)DisplayInfo.Height / 2 - height / 2, width, height));
                             //overlappedPresenter.Maximize();                                                    

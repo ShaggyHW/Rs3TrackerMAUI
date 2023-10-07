@@ -70,16 +70,16 @@
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
                 <RowDefinition Height="60"></RowDefinition>
-                <RowDefinition Height="60"></RowDefinition>
-                <RowDefinition Height="50"></RowDefinition>
+               
+                <RowDefinition Height="100"></RowDefinition>
             </Grid.RowDefinitions>
 
             <Label VerticalOptions="Center"
                    HorizontalTextAlignment="Center"
                    Grid.Row="0"
-                   Margin="10">ADD ABILITIES MANUALLY</Label>
+                   Margin="10">ADD ABILITIES/ITEMS MANUALLY</Label>
 
             <StackLayout Orientation="Vertical"
                          VerticalOptions="Center"
@@ -91,10 +91,7 @@
                         WidthRequest="200"
                         Margin="5"
                         Text="Reload"></Button>
-                <Label Margin="5">SELECT IMAGE (TO ADD NEW IMAGES PLACE THEM IN THE "PERSONAL IMAGES" FOLDER AND RELOAD THE PROGRAM</Label>
-                <!--<ComboBox x:Name="Images"
-                          Margin="5"
-                          SelectionChanged="Images_SelectionChanged"></ComboBox>-->
+                <Label Margin="5">SELECT IMAGE (TO ADD NEW IMAGES PLACE THEM IN THE "PERSONAL IMAGES" FOLDER AND RELOAD THE PROGRAM</Label>           
                 <Picker x:Name="Images"
                         Margin="5"
                         WidthRequest="200"
@@ -121,28 +118,22 @@
                        HorizontalOptions="Start"
                        VerticalTextAlignment="Center"
                        HorizontalTextAlignment="Center"></Entry>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal"
-                         VerticalOptions="Center"
+            </StackLayout>        
+            <StackLayout Orientation="Vertical"
                          Grid.Row="3">
-                <Label VerticalOptions="Center"
-                       Margin="10">CoolDown (S)</Label>
-                <Entry x:Name="txtCooldDown"
-                       WidthRequest="150"
-                       HeightRequest="30"
-                       Margin="10"
-                       VerticalOptions="Center"
-                       HorizontalOptions="Start"
-                       VerticalTextAlignment="Center"
-                       HorizontalTextAlignment="Center"></Entry>
+                <Button x:Name="btnAdd"
+                        Text="Add"
+                        HeightRequest="40"
+                        WidthRequest="200"
+                        Clicked="btnAdd_Clicked"></Button>
+                <Button x:Name="btnClose"
+                        Text="Close"                 
+                        HeightRequest="40"
+                        WidthRequest="200"
+                        Margin="5"
+                        Clicked="btnClose_Clicked" />
             </StackLayout>
-
-            <Button x:Name="btnAdd"
-                    Grid.Row="4"
-                    Text="Add"
-                    HeightRequest="40"
-                    WidthRequest="200"
-                    Clicked="btnAdd_Clicked"></Button>
+          
         </Grid>
 
     </Grid>

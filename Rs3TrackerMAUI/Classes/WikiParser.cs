@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Rs3TrackerMAUI.Classes {
     public class WikiParser {
-#if WINDOWS
-        string mainDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
-#endif
-#if MACCATALYST
-        string mainDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
-#endif
+//#if WINDOWS
+//        string mainDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
+//#endif
+//#if MACCATALYST
+//        string mainDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
+//#endif
         public string getHTMLCode(string endpoint) {
             string url = "https://runescape.wiki/w/";
             string pageHTML = "";
@@ -26,7 +26,7 @@ namespace Rs3TrackerMAUI.Classes {
             return pageHTML;
         }
 
-        public string SaveImageFROMURL(string name, string endpoint) {
+        public string SaveImageFROMURL(string name, string endpoint, string mainDir) {
             string finalName = name.Replace(" ", "_");
             if (name.Contains("Destroy")) {
                 finalName = name.Replace(" ", "_") + "_(ability)";

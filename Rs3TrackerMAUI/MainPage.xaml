@@ -12,7 +12,7 @@
         <StackLayout  Orientation="Horizontal"
                       HorizontalOptions="Center"
                       Grid.Row="0"
-                      Margin="5">
+                      Margin="5" >
             <Button x:Name="btnSettings"
                     WidthRequest="150"
                     Margin="5"
@@ -43,8 +43,7 @@
                          Margin="5">
                 <Picker x:Name="cmbMode"
                         WidthRequest="200"
-                        Margin="5"
-                        SelectedIndexChanged="cmbMode_SelectedIndexChanged"
+                        Margin="5"                       
                         HeightRequest="45"
                         VerticalTextAlignment="Center">
                 </Picker>

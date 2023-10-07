@@ -3,8 +3,10 @@ using IniParser.Model;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Devices;
 using Microsoft.Maui.Dispatching;
+using Newtonsoft.Json;
 using Rs3TrackerMAUI.ContentPages;
 using System.Security.Principal;
+using static Rs3TrackerMAUI.Classes.DisplayClasses;
 
 namespace Rs3TrackerMAUI;
 
@@ -17,7 +19,7 @@ public partial class MainPage : ContentPage {
 #endif
     string mainDir = "";
     public MainPage() {
-        SetMainWindowStartSize(550, 320);
+        SetMainWindowStartSize(650, 320);
         InitializeComponent();
 
         Loaded += MainPage_Loaded;
@@ -32,8 +34,8 @@ public partial class MainPage : ContentPage {
                 Task.Run(() => {
                     Thread.Sleep(1000);
                     MainThread.BeginInvokeOnMainThread(() => {
-                        handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = new CoreGraphics.CGSize(100, 100);
-                        handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = new CoreGraphics.CGSize(5000, 5000);
+                        handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = new CoreGraphics.CGSize(width, height);
+                        handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = new CoreGraphics.CGSize(width, height);
                     });
                 });
             });
@@ -61,9 +63,18 @@ public partial class MainPage : ContentPage {
                 var file = File.Create(Path.Combine(mainDir, "mongoAbilities.json"));
                 file.Close();
             }
+            if (File.Exists(".\\Bars.json")) {
+                var bars = JsonConvert.DeserializeObject<List<BarClass>>(File.ReadAllText(Path.Combine(mainDir, "Bars.json")));
+                //foreach (var bar in bars) {
+                //    ComboBoxItem ComboBoxItem = new ComboBoxItem();
+                //    ComboBoxItem.Content = bar.name;
+                //    cmbMode.Items.Add(ComboBoxItem);
+                //}
+                cmbMode.ItemsSource = bars;
+            }
         }
     }
-    Window ablitiesWindow = null;
+    static Window ablitiesWindow = null;
     private void btnAbilityConfig_Clicked(object sender, EventArgs e) {
         ablitiesWindow = new Window {
             Page = new AbilityConfigurations {
@@ -76,13 +87,11 @@ public partial class MainPage : ContentPage {
 
         Application.Current.OpenWindow(ablitiesWindow);
     }
-
+    public static void CloseAbilityConfigMenu() {
+        Application.Current?.CloseWindow(ablitiesWindow);
+    }
     private void btnBars_Clicked(object sender, EventArgs e) {
         DisplayAlert("OK", Microsoft.Maui.Storage.FileSystem.CacheDirectory, "ok");
-    }
-
-    private void btnServer_Clicked(object sender, EventArgs e) {
-
     }
 
     private void btnClose_Clicked(object sender, EventArgs e) {
@@ -91,25 +100,24 @@ public partial class MainPage : ContentPage {
 
     Window displayWindow = null;
     private void btnStartTracker_Clicked(object sender, EventArgs e) {
-        if (displayWindow != null) {       
+        if (displayWindow != null) {
             var x = displayWindow.Page as Display;
             x.OnClose();
             Application.Current?.CloseWindow(displayWindow);
             displayWindow = null;
             btnStartTracker.Text = "Start Tracker";
         } else {
-            if (!File.Exists(mainDir + "keybinds.json")) {
+            if (!File.Exists(Path.Combine(mainDir, "keybinds.json"))) {
                 DisplayAlert("Alert", "Missing Keybinds", "OK");
                 //MessageBox.Show("Missing Keybinds");
                 return;
             }
-            if (!File.Exists(mainDir + "barkeybinds.json")) {
+            if (!File.Exists(Path.Combine(mainDir, "barkeybinds.json"))) {
                 DisplayAlert("Alert", "Missing Bar Keybinds", "OK");
-
                 return;
             }
-            //if (cmbMode.SelectedIndex.Equals(-1))
-            //    return;
+            if (cmbMode.SelectedIndex.Equals(-1))
+                return;
 
             btnStartTracker.Text = "Close Tracker";
             //display = new Display(cmbMode.Text.ToLower(), TrackCD.IsChecked.Value, onTop.IsChecked.Value, CanResize.IsChecked.Value, ServerCheck.IsChecked.Value);
@@ -119,7 +127,7 @@ public partial class MainPage : ContentPage {
             //display.Width = DisplayWidth;
             //display.Show();
             displayWindow = new Window {
-                Page = new Display() {
+                Page = new Display(cmbMode.SelectedItem.ToString()) {
 
                 },
                 Title = "Display",
@@ -130,13 +138,7 @@ public partial class MainPage : ContentPage {
         }
     }
 
-    private void CanResize_CheckedChanged(object sender, CheckedChangedEventArgs e) {
-
-    }
-
-    private void cmbMode_SelectedIndexChanged(object sender, EventArgs e) {
-
-    }
+   
     static Window settingsWindow = null;
     private void btnSettings_Clicked(object sender, EventArgs e) {
         settingsWindow = new Window {
@@ -144,13 +146,13 @@ public partial class MainPage : ContentPage {
 
             },
             Title = "Settings",
-            Width = 850,
-            Height = 500
+            Width = 450,
+            Height = 250
         };
         Application.Current.OpenWindow(settingsWindow);
     }
-    public static void CloseSettings() {
-        Application.Current?.CloseWindow(settingsWindow);     
+    public static void CloseSettingsMenu() {
+        Application.Current?.CloseWindow(settingsWindow);
     }
 
     private void btnKeybinds_Clicked(object sender, EventArgs e) {

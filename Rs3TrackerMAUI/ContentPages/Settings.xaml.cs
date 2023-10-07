@@ -20,7 +20,7 @@ public partial class Settings : ContentPage {
     private void Settings_Loaded(object sender, EventArgs e) {
         if (File.Exists(Path.Combine(mainDir, "Configuration.ini"))) {
             var parser = new FileIniDataParser();
-            IniData data = parser.ReadFile("Configuration.ini");
+            IniData data = parser.ReadFile(Path.Combine(mainDir, "Configuration.ini"));
             txtDataFolder.Text = data["DATA"]["FOLDER"];
             txtIP.Text = data["DATA"]["IP"];
             txtPort.Text = data["DATA"]["PORT"];
@@ -34,15 +34,18 @@ public partial class Settings : ContentPage {
         data["DATA"]["IP"] = txtIP.Text;
         data["DATA"]["PORT"] = txtPort.Text;
         parser.WriteFile(Path.Combine(mainDir, "Configuration.ini"), data);
+        DisplayAlert("SAVED", "Data has been saved", "OK");
     }
 
     private void btnClose_Clicked(object sender, EventArgs e) {
-        MainPage.CloseSettings();
+        MainPage.CloseSettingsMenu();
     }
 
     private async void btnDataFolder_Clicked(object sender, EventArgs e) {
         var result = await FolderPicker.Default.PickAsync(default);
-        if (result.Folder != null)
+        if (result.Folder != null) {
             txtDataFolder.Text = result.Folder.Path;
+            DisplayAlert("WARNING", "Restart the aplication for the folder changes to take effect!", "OK");
+        }
     }
 }

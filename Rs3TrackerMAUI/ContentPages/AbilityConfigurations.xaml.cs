@@ -1,4 +1,6 @@
 using HtmlAgilityPack;
+using IniParser.Model;
+using IniParser;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
 using Newtonsoft.Json;
@@ -11,15 +13,24 @@ namespace Rs3TrackerMAUI.ContentPages;
 public partial class AbilityConfigurations : ContentPage {
     private List<Ability> abilities = new List<Ability>();
     List<Ability> abils = new List<Ability>();
+
+    string mainDir = "";
 #if WINDOWS
-     string mainDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
+     string cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif
 #if MACCATALYST
-    string mainDir = Microsoft.Maui.Storage.FileSystem.CacheDirectory;
+    string cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif
+
 
     public AbilityConfigurations() {
         InitializeComponent();
+
+        if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
+            var parser = new FileIniDataParser();
+            IniData data = parser.ReadFile(Path.Combine(cacheDir, "Configuration.ini"));
+            mainDir = data["DATA"]["FOLDER"];
+        }
 
         if (!Directory.Exists(Path.Combine(mainDir, "Images")))
             Directory.CreateDirectory(Path.Combine(mainDir, "Images"));
@@ -43,14 +54,15 @@ public partial class AbilityConfigurations : ContentPage {
         LoadCombo();
     }
 
-    public class Abilities {
+    public class PickerItemClass {
         public string Content { get; set; }
         public string Tag { get; set; }
     }
 
-    public List<Abilities> abilitiesList = new List<Abilities>();
+    public List<PickerItemClass> abilitiesList = new List<PickerItemClass>();
     private void LoadCombo() {
         Images.ItemsSource = null;
+        abilitiesList = new List<PickerItemClass>();
         var Abils = Directory.GetFiles(Path.Combine(mainDir, "Images"), "*.*").Where(s => s.ToLower().EndsWith(".png") || s.ToLower().EndsWith(".jpg")).ToList();
 
         //foreach (var name in Abils) {
@@ -71,7 +83,7 @@ public partial class AbilityConfigurations : ContentPage {
             PickOptions ComboBoxItem = new PickOptions();
 
             string finalName = name.Substring(index + 1, name.Length - index - 1);
-            abilitiesList.Add(new Abilities() {
+            abilitiesList.Add(new PickerItemClass() {
                 Content = finalName.Split('.')[0],
                 Tag = "PersonalImages"
             });
@@ -284,7 +296,6 @@ public partial class AbilityConfigurations : ContentPage {
             }
         }
 
-
         Code = wikiParser.getHTMLCode("Ancient_Magicks");
         doc = new HtmlDocument();
         doc.LoadHtml(Code);
@@ -427,7 +438,7 @@ public partial class AbilityConfigurations : ContentPage {
         File.WriteAllText(Path.Combine(mainDir, "mongoAbilities.json"), JsonConvert.SerializeObject(preImport, Formatting.Indented));
         LoadCombo();
         var abilsOrder = abils.OrderBy(i => i.name).ToList();
-      
+
         dgSettings.ItemsSource = abilsOrder;
 
         DisplayAlert("INFO", "ABILITIES IMPORTED", "OK");
@@ -436,7 +447,7 @@ public partial class AbilityConfigurations : ContentPage {
         try {
             Ability ability = new Ability();
             string fileName = "";
-            fileName = wikiParser.SaveImageFROMURL(name, imgURL);
+            fileName = wikiParser.SaveImageFROMURL(name, imgURL, mainDir);
             if (string.IsNullOrEmpty(fileName))
                 return;
             //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");                            
@@ -472,10 +483,37 @@ public partial class AbilityConfigurations : ContentPage {
     }
 
     private void reloadCombo_Clicked(object sender, EventArgs e) {
-
+        LoadCombo();
     }
 
     private void btnAdd_Clicked(object sender, EventArgs e) {
+        if (string.IsNullOrEmpty(txtAbilName.Text) || Images.SelectedIndex == -1) {
+            DisplayAlert("ERROR", "Data Missing", "OK");
+            return;
+        }
 
+        Ability ability = new Ability();
+        ability.name = txtAbilName.Text;
+
+        if (Images.SelectedItem != null) {
+            PickerItemClass pickerItem = Images.SelectedItem as PickerItemClass;
+            ability.img = Path.Combine(mainDir, pickerItem.Tag, pickerItem.Content + ".png");
+        }
+
+        var Exists = abilities.Where(p => p.name == ability.name).Select(p => p).FirstOrDefault();
+
+        if (Exists == null) {
+            abilities.Add(ability);
+            dgSettings.ItemsSource = null;
+            dgSettings.ItemsSource = abilities;
+            Images.SelectedIndex = -1;
+            txtAbilName.Text = "";
+        } else {
+            DisplayAlert("WARNING","Ability with the same name already exists!","OK");
+        }
+    }
+
+    private void btnClose_Clicked(object sender, EventArgs e) {
+        MainPage.CloseAbilityConfigMenu();
     }
 }
