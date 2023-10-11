@@ -18,7 +18,7 @@ public partial class BarConfigurations : ContentPage {
 #if MACCATALYST
         cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif
-        SetMainWindowStartSize(760,270)
+        SetMainWindowStartSize(760, 270);
         InitializeComponent();
         if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
             var parser = new FileIniDataParser();
