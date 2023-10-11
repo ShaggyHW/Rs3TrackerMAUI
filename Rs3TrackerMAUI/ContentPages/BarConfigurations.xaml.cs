@@ -7,15 +7,17 @@ namespace Rs3TrackerMAUI.ContentPages;
 
 public partial class BarConfigurations : ContentPage {
     string mainDir = "";
-#if WINDOWS
-    string cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
-#endif
-#if MACCATALYST
-    string cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
-#endif
+    string cacheDir = "";
+
 
     private List<BarClass> bars = new List<BarClass>();
     public BarConfigurations() {
+#if WINDOWS
+        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+#endif
+#if MACCATALYST
+        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+#endif
         InitializeComponent();
         if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
             var parser = new FileIniDataParser();

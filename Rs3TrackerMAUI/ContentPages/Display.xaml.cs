@@ -1,3 +1,5 @@
+using IniParser.Model;
+using IniParser;
 using Newtonsoft.Json;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -10,7 +12,10 @@ using static Rs3TrackerMAUI.Classes.DisplayClasses;
 namespace Rs3TrackerMAUI.ContentPages;
 
 public partial class Display : ContentPage {
+    string cacheDir = "";
     string mainDir = "";
+    string IP = "";
+    string PORT = "";
     List<KeybindClass> keybindClasses = new List<KeybindClass>();
     List<BarKeybindClass> keybindBarClasses = new List<BarKeybindClass>();
     int imgCounter = 0;
@@ -24,10 +29,16 @@ public partial class Display : ContentPage {
     //private bool trackCD;
     private bool pause = false;
 
-    HttpListener listener = new HttpListener();
+ 
 
     public Display(string _style) {
         InitializeComponent();
+#if WINDOWS
+        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+#endif
+#if MACCATALYST
+        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+#endif
         this.style = _style;
         Loaded += Display_Loaded;
 
@@ -42,7 +53,7 @@ public partial class Display : ContentPage {
     }
 
     private void StartListener(CancellationToken ct) {
-        listener.Prefixes.Add("http://localhost:8086/");
+        listener.Prefixes.Add($"http://{IP}:{PORT}/");
 
         listener.Start();
 
@@ -82,10 +93,19 @@ public partial class Display : ContentPage {
         }
     }
 
-
+    HttpListener listener = new HttpListener();
     CancellationTokenSource tokenSource2 = new CancellationTokenSource();
     Task ListenerTask;
     private void Display_Loaded(object sender, EventArgs e) {
+        if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
+            var parser = new FileIniDataParser();
+            IniData data = parser.ReadFile(Path.Combine(cacheDir, "Configuration.ini"));
+            mainDir = data["DATA"]["FOLDER"];
+            IP = data["DATA"]["IP"];
+            PORT = data["DATA"]["PORT"];
+        }
+
+
         keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(Path.Combine(mainDir , "keybinds.json")));
         keybindBarClasses = JsonConvert.DeserializeObject<List<BarKeybindClass>>(File.ReadAllText(Path.Combine(mainDir , "barkeybinds.json")));
         stopwatch.Start();
@@ -114,14 +134,15 @@ public partial class Display : ContentPage {
             else if (e.metaKey)//Windows Key
                 modifier = "WIN";
 
+            string keyPressedValue = Helper.KeybindConverter.KeyConversion(e.keycode);
             List<Ability> abilityList = (from r in keybindClasses
-                                         where r.key.ToLower() == e.keycode.ToString().ToLower()
+                                         where r.key.ToLower() == keyPressedValue.ToString().ToLower()
                                          where r.modifier.ToString().ToLower() == modifier.ToLower()
                                          select r.ability).ToList();
 
             if (abilityList.Count == 0) {
                 if (keybindBarClasses != null) {
-                    var listBarChange2 = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.keycode.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower())).Select(p => p).FirstOrDefault();
+                    var listBarChange2 = keybindBarClasses.Where(p => p.key.ToLower().Equals(keyPressedValue.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower())).Select(p => p).FirstOrDefault();
                     if (listBarChange2 != null) {
                         if (listBarChange2.name.ToLower().Equals("clear")) {
                             displayImg1.Source = null;
@@ -154,7 +175,7 @@ public partial class Display : ContentPage {
                     continue;
 
                 keypressed.modifier = modifier;
-                keypressed.key = e.keycode.ToString();
+                keypressed.key = keyPressedValue.ToString();
                 keypressed.ability.name = ability.name;
                 keypressed.ability.img = ability.img;             
                 keypressed.timepressed = stopwatch.Elapsed.TotalMilliseconds;
@@ -248,7 +269,7 @@ public partial class Display : ContentPage {
                     imgCounter++;
             }
             if (keybindBarClasses != null) {
-                var listBarChange = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.keycode.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower()) && (p.bar.name.ToLower().Equals(style.ToLower()) || p.bar.name.Equals("ALL"))).Select(p => p).FirstOrDefault();
+                var listBarChange = keybindBarClasses.Where(p => p.key.ToLower().Equals(keyPressedValue.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower()) && (p.bar.name.ToLower().Equals(style.ToLower()) || p.bar.name.Equals("ALL"))).Select(p => p).FirstOrDefault();
                 if (listBarChange != null) {
                     if (!listBarChange.name.ToLower().Equals("pause") && !listBarChange.name.ToLower().Equals("clear")) {
                         style = listBarChange.name;

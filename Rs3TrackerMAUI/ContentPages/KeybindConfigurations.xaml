@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Rs3TrackerMAUI.ContentPages.KeybindConfigurations"
+             Title="KeybindConfigurations">
+                    
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="70"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="280"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Frame Margin="5">
+                <ListView ItemsSource="{Binding keybindingList}"
+                          x:Name="dgSettings">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.RowSpan="2"
+                                           Source="{Binding ability.img}"
+                                           Aspect="AspectFill"
+                                           HeightRequest="60"
+                                           WidthRequest="60" />
+                                    <Label Grid.Column="1"
+                                           Grid.Row="0"
+                                           Text="{Binding bar.name}"
+                                           FontAttributes="Bold" />
+                                    <StackLayout Grid.Column="1"
+                                                 Grid.Row="1"
+                                                 Orientation="Vertical">
+                                        <Label Text="{Binding modifier}"
+                                               FontAttributes="Bold" />
+                                        <Label Text="{Binding key}"
+                                               FontAttributes="Bold" />
+                                        <!--<Label Text="+" />-->
+
+                                    </StackLayout>
+
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Frame>
+            <StackLayout Orientation="Vertical"
+                         Grid.Column="1">
+                <Label HorizontalOptions="Center">ABILITIES</Label>
+                <Label Margin="5"
+                       HorizontalTextAlignment="Center">SELECT ABILITY</Label>
+                <Button x:Name="btnPickAbility"
+                        Text="Pick Ability"
+                        Margin="10"
+                        WidthRequest="180"
+                        Clicked="btnPickAbility_Clicked" />
+                <Image Grid.Column="0"
+                       Margin="5"
+                       HeightRequest="60"
+                       WidthRequest="60"
+                       MaximumHeightRequest="60"
+                       MaximumWidthRequest="60"
+                       x:Name="displayImg1" />
+                <Label Margin="5"
+                       HorizontalTextAlignment="Center">SELECT BAR ("ALL" BAR MEANS IT WORKS ON ALL BARS ON THE DISPLAY MEANT FOR KEYBINDS NOT STYLE SPECIFIC)</Label>
+                <Picker x:Name="cmbBar"
+                        ItemsSource="{Binding}"
+                        ItemDisplayBinding="{Binding name}"
+                        SelectedItem="{Binding name}"
+                        HeightRequest="40"
+                        Margin="10"
+                        WidthRequest="100" />
+                <Label Margin="5">SELECTED KEY:</Label>
+                <Label x:Name="SelectedKey"
+                       Margin="10"
+                       IsEnabled="False"
+                       Text="Selected Key" />
+                <Button x:Name="btnAddKey"
+                        Text="Add Keybind"
+                        Margin="10"
+                        Clicked="btnAddKey_Clicked" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                         Grid.ColumnSpan="2"
+                         Grid.Row="1">
+                <Button x:Name="btnSaveAbilityKeybind"
+                        Text="Save Ability Keybinds"
+                        Margin="10"
+                        WidthRequest="180"
+                        Clicked="btnSaveAbilityKeybind_Clicked" />
+                <Button x:Name="btnDeleteAbilityKeybind"
+                        Text="Delete Selected"
+                        Margin="10"
+                        WidthRequest="150"
+                        Clicked="btnDeleteAbilityKeybind_Clicked" />
+                <Button x:Name="btnClose"
+                        Margin="10"
+                        WidthRequest="200"
+                        Text="Close"
+                        Clicked="btnClose_Clicked"></Button>
+            </StackLayout>
+        </Grid>       
+      
+    
+</ContentPage>

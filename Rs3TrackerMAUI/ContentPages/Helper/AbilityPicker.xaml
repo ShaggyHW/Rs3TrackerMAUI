@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Rs3TrackerMAUI.ContentPages.Helper.AbilityPicker"
+             Title="AbilityPicker">
+    <VerticalStackLayout>
+        <SearchBar Margin="5" TextChanged="SearchBar_TextChanged"/>
+        <Frame Margin="5">
+            <ListView ItemsSource="{Binding}"
+                      x:Name="dgSettings" HeightRequest="350" Margin="5">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.RowSpan="2"
+                                       Source="{Binding img}"
+                                       Aspect="AspectFill"
+                                       HeightRequest="60"
+                                       WidthRequest="60" />
+                                <Label Grid.Column="1"
+                                       Text="{Binding name}"
+                                       FontAttributes="Bold" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Frame>
+        <Button x:Name="btnPickAbilty"
+                Margin="5"
+                WidthRequest="200"
+                Text="Pick Ability"
+                Clicked="btnPickAbilty_Clicked"></Button>
+    </VerticalStackLayout>
+</ContentPage>

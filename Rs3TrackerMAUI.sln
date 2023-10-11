@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rs3TrackerMAUI", "Rs3TrackerMAUI\Rs3TrackerMAUI.csproj", "{1002A6E2-FB0C-4D4A-A765-B4A616CF1FB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rs3 Ability Tracker", "Rs3TrackerMAUI\Rs3 Ability Tracker.csproj", "{1002A6E2-FB0C-4D4A-A765-B4A616CF1FB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

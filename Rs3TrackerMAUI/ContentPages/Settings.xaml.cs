@@ -6,14 +6,16 @@ using IniParser.Model;
 namespace Rs3TrackerMAUI.ContentPages;
 
 public partial class Settings : ContentPage {
-#if WINDOWS
-     string mainDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
-#endif
-#if MACCATALYST
-    string mainDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
-#endif
+    string mainDir = "";
+
     public Settings() {
         InitializeComponent();
+#if WINDOWS
+      mainDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+#endif
+#if MACCATALYST
+        mainDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+#endif
         Loaded += Settings_Loaded;
     }
 

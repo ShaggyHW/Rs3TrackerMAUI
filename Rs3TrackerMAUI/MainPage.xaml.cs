@@ -11,14 +11,16 @@ using static Rs3TrackerMAUI.Classes.DisplayClasses;
 namespace Rs3TrackerMAUI;
 
 public partial class MainPage : ContentPage {
+
+    string mainDir = "";
+    string cacheDir = "";
+    public MainPage() {
 #if WINDOWS
-     string cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif
 #if MACCATALYST
-    string cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif
-    string mainDir = "";
-    public MainPage() {
         SetMainWindowStartSize(650, 320);
         InitializeComponent();
         Loaded += MainPage_Loaded;
@@ -83,6 +85,7 @@ public partial class MainPage : ContentPage {
     }
     public static void CloseAbilityConfigMenu() {
         Application.Current?.CloseWindow(ablitiesWindow);
+        ablitiesWindow = null;
 
     }
     static Window barsWindow = null;
@@ -91,12 +94,13 @@ public partial class MainPage : ContentPage {
             Page = new BarConfigurations { },
             Title = "Bars",
             Width = 760,
-            Height =270
+            Height = 270
         };
         Application.Current.OpenWindow(barsWindow);
     }
     public static void CloseBarsConfigMenu() {
         Application.Current?.CloseWindow(barsWindow);
+        barsWindow = null;
     }
 
     Window displayWindow = null;
@@ -113,10 +117,10 @@ public partial class MainPage : ContentPage {
                 //MessageBox.Show("Missing Keybinds");
                 return;
             }
-            if (!File.Exists(Path.Combine(mainDir, "barkeybinds.json"))) {
-                DisplayAlert("Alert", "Missing Bar Keybinds", "OK");
-                return;
-            }
+            //if (!File.Exists(Path.Combine(mainDir, "barkeybinds.json"))) {
+            //    DisplayAlert("Alert", "Missing Bar Keybinds", "OK");
+            //    return;
+            //}
             if (cmbMode.SelectedIndex.Equals(-1))
                 return;
 
@@ -128,8 +132,7 @@ public partial class MainPage : ContentPage {
             //display.Width = DisplayWidth;
             //display.Show();
             displayWindow = new Window {
-                Page = new Display(cmbMode.SelectedItem.ToString()) {
-
+                Page = new Display((cmbMode.SelectedItem as BarClass).name) {
                 },
                 Title = "Display",
                 Width = 800,
@@ -152,10 +155,40 @@ public partial class MainPage : ContentPage {
 
     public static void CloseSettingsMenu() {
         Application.Current?.CloseWindow(settingsWindow);
+        settingsWindow = null;
     }
 
+    static Window keybindsWindow = null;
     private void btnKeybinds_Clicked(object sender, EventArgs e) {
-
+        keybindsWindow = new Window {
+            Page = new KeybindConfigurations { },
+            Title = "Ability Keybinds",
+            Width = 670,
+            Height = 520
+        };
+        Application.Current.OpenWindow(keybindsWindow);
+    }
+    public static void CloseKeybindsConfigMenu() {
+        Application.Current?.CloseWindow(keybindsWindow);
+        var x = keybindsWindow.Page as KeybindConfigurations;
+        x.OnClose();
+        keybindsWindow = null;
+    }
+    static Window barKeybindsWindow = null;
+    private void btnBarKeybinds_Clicked(object sender, EventArgs e) {
+        barKeybindsWindow = new Window {
+            Page = new BarKeybindsConfigurations { },
+            Title = "Bar Keybinds",
+            Width = 670,
+            Height = 520
+        };
+        Application.Current.OpenWindow(barKeybindsWindow);
+    }
+    public static void CloseBarKeybindsConfigMenu() {
+        Application.Current?.CloseWindow(barKeybindsWindow);
+        var x = barKeybindsWindow.Page as BarKeybindsConfigurations;
+        x.OnClose();
+        barKeybindsWindow = null;
     }
 }
 

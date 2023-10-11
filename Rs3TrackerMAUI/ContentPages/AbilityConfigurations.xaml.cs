@@ -15,15 +15,16 @@ public partial class AbilityConfigurations : ContentPage {
     List<Ability> abils = new List<Ability>();
 
     string mainDir = "";
-#if WINDOWS
-     string cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
-#endif
-#if MACCATALYST
-    string cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
-#endif
 
+    string cacheDir = "";
 
     public AbilityConfigurations() {
+#if WINDOWS
+        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+#endif
+#if MACCATALYST
+        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+#endif
         InitializeComponent();
 
         if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
@@ -509,7 +510,7 @@ public partial class AbilityConfigurations : ContentPage {
             Images.SelectedIndex = -1;
             txtAbilName.Text = "";
         } else {
-            DisplayAlert("WARNING","Ability with the same name already exists!","OK");
+            DisplayAlert("WARNING", "Ability with the same name already exists!", "OK");
         }
     }
 

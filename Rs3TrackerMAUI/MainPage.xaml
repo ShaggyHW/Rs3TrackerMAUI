@@ -9,41 +9,52 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <StackLayout  Orientation="Horizontal"
-                      HorizontalOptions="Center"
-                      Grid.Row="0"
-                      Margin="5" >
-            <Button x:Name="btnSettings"
-                    WidthRequest="150"
-                    Margin="5"
-                    Clicked="btnSettings_Clicked"
-                    Text="Settings" />
-            <Button x:Name="btnBars"
-                    WidthRequest="150"
-                    Margin="5"
-                    Clicked="btnBars_Clicked"
-                    Text="Bars" />
-            <Button x:Name="btnAbilityConfig"
-                    Text="Abilities"
-                    WidthRequest="150"
-                    Margin="5"
-                    Clicked="btnAbilityConfig_Clicked" />
-            <Button x:Name="btnKeybinds"
-                    Text="Keybinds"
-                    WidthRequest="150"
-                    Margin="5"
-                    Clicked="btnKeybinds_Clicked" />
-
+        <StackLayout Orientation="Vertical"
+                     Margin="5">
+            <StackLayout  Orientation="Horizontal"
+                          HorizontalOptions="Center"
+                          Margin="5">
+                <Button x:Name="btnSettings"
+                        WidthRequest="150"
+                        Margin="5"
+                        Clicked="btnSettings_Clicked"
+                        Text="Settings" />
+                <Button x:Name="btnBars"
+                        WidthRequest="150"
+                        Margin="5"
+                        Clicked="btnBars_Clicked"
+                        Text="Bars" />
+                <Button x:Name="btnAbilityConfig"
+                        Text="Abilities"
+                        WidthRequest="150"
+                        Margin="5"
+                        Clicked="btnAbilityConfig_Clicked" />
+            </StackLayout>
+            <StackLayout  Orientation="Horizontal"
+                          HorizontalOptions="Center"
+                          Margin="5">
+                <Button x:Name="btnKeybinds"
+                        Text="Keybinds"
+                        WidthRequest="150"
+                        Margin="5"
+                        Clicked="btnKeybinds_Clicked" />
+                <Button x:Name="btnBarKeybinds"
+                        Text="Bar Keybinds"
+                        WidthRequest="150"
+                        Margin="5"
+                        Clicked="btnBarKeybinds_Clicked" />
+            </StackLayout>
         </StackLayout>
+
         <StackLayout Grid.Row="1"
                      Orientation="Vertical"
-                     Margin="5">          
+                     Margin="5">
             <StackLayout Orientation="Horizontal"
                          HorizontalOptions="Center"
                          Margin="5">
                 <Picker x:Name="cmbMode"
                         WidthRequest="200"
-                        Margin="5"                       
+                        Margin="5"
                         HeightRequest="45"
                         VerticalTextAlignment="Center"
                         ItemsSource="{Binding}"

@@ -36,7 +36,7 @@
 	  <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
 	  <GenerateTestArtifacts>True</GenerateTestArtifacts>
 	  <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-	  <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
+	  <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
 	  <PackageCertificateThumbprint>207A8EC12DB2045360A63E0A62FA02CAE4BA1F41</PackageCertificateThumbprint>
 	  <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
 	  <AssemblyName>Rs3 Ability Tracker</AssemblyName>
@@ -112,7 +112,16 @@
 	  <MauiXaml Update="ContentPages\BarConfigurations.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="ContentPages\BarKeybindsConfigurations.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="ContentPages\Display.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ContentPages\Helper\AbilityPicker.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ContentPages\KeybindConfigurations.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ContentPages\Settings.xaml">
