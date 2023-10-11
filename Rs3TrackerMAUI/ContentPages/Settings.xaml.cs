@@ -9,6 +9,7 @@ public partial class Settings : ContentPage {
     string mainDir = "";
 
     public Settings() {
+        SetMainWindowStartSize(450, 250);
         InitializeComponent();
 #if WINDOWS
       mainDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
@@ -28,7 +29,31 @@ public partial class Settings : ContentPage {
             txtPort.Text = data["DATA"]["PORT"];
         }
     }
+    private void SetMainWindowStartSize(int width, int height) {
+#if MACCATALYST
+        Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(
+            nameof(IWindow), (handler, view) => {
+                var size = new CoreGraphics.CGSize(width, height);
+                handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = size;
+                handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = size;
+                Task.Run(() => {
+                    Thread.Sleep(1000);
+                    MainThread.BeginInvokeOnMainThread(() => {
+                        handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = new CoreGraphics.CGSize(width, height);
+                        handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = new CoreGraphics.CGSize(width, height);
+                    });
+                });
+            });
+#endif
 
+#if WINDOWS
+        Microsoft.UI.Xaml.Window window = (Microsoft.UI.Xaml.Window)App.Current.Windows.First<Window>().Handler.PlatformView;
+        IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(window);
+        Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
+        Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+        appWindow.Resize(new Windows.Graphics.SizeInt32(width,height));      
+#endif
+    }
     private void btnSave_Clicked(object sender, EventArgs e) {
         var parser = new FileIniDataParser();
         IniData data = new IniData();

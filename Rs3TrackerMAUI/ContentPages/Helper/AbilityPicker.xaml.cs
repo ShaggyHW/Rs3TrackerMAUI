@@ -12,6 +12,7 @@ public partial class AbilityPicker : ContentPage {
     public Ability PickedAbilty = new Ability();
 
     public AbilityPicker() {
+        SetMainWindowStartSize(670, 520);
         InitializeComponent();
 #if WINDOWS
         cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
@@ -27,7 +28,31 @@ public partial class AbilityPicker : ContentPage {
 
         Loaded += AbilityPicker_Loaded;
     }
+    private void SetMainWindowStartSize(int width, int height) {
+#if MACCATALYST
+        Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(
+            nameof(IWindow), (handler, view) => {
+                var size = new CoreGraphics.CGSize(width, height);
+                handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = size;
+                handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = size;
+                Task.Run(() => {
+                    Thread.Sleep(1000);
+                    MainThread.BeginInvokeOnMainThread(() => {
+                        handler.PlatformView.WindowScene.SizeRestrictions.MinimumSize = new CoreGraphics.CGSize(width, height);
+                        handler.PlatformView.WindowScene.SizeRestrictions.MaximumSize = new CoreGraphics.CGSize(width, height);
+                    });
+                });
+            });
+#endif
 
+#if WINDOWS
+        Microsoft.UI.Xaml.Window window = (Microsoft.UI.Xaml.Window)App.Current.Windows.First<Window>().Handler.PlatformView;
+        IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(window);
+        Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
+        Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+        appWindow.Resize(new Windows.Graphics.SizeInt32(width,height));      
+#endif
+    }
     private void AbilityPicker_Loaded(object sender, EventArgs e) {
         if (File.Exists(Path.Combine(mainDir, "mongoAbilities.json"))) {
             abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(Path.Combine(mainDir, "mongoAbilities.json")));
