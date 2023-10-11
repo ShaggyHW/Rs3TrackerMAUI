@@ -18,9 +18,7 @@ public partial class BarConfigurations : ContentPage {
 #if MACCATALYST
         cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif
-        InitializeComponent();
-        SetMainWindowStartSize(760, 290);
-   
+        InitializeComponent();        
         if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
             var parser = new FileIniDataParser();
             IniData data = parser.ReadFile(Path.Combine(cacheDir, "Configuration.ini"));
@@ -54,6 +52,7 @@ public partial class BarConfigurations : ContentPage {
 #endif
     }
     private void BarConfigurations_Loaded(object sender, EventArgs e) {
+        SetMainWindowStartSize(760, 290);
         if (File.Exists(Path.Combine(mainDir, "Bars.json"))) {
             bars = JsonConvert.DeserializeObject<List<BarClass>>(File.ReadAllText(Path.Combine(mainDir, "Bars.json")));
             dgSettings.ItemsSource = bars;

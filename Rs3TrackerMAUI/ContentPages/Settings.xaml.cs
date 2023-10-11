@@ -10,7 +10,7 @@ public partial class Settings : ContentPage {
 
     public Settings() {
         InitializeComponent();
-        SetMainWindowStartSize(450, 270);
+      
 
 #if WINDOWS
       mainDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
@@ -22,6 +22,7 @@ public partial class Settings : ContentPage {
     }
 
     private void Settings_Loaded(object sender, EventArgs e) {
+        SetMainWindowStartSize(450, 270);
         if (File.Exists(Path.Combine(mainDir, "Configuration.ini"))) {
             var parser = new FileIniDataParser();
             IniData data = parser.ReadFile(Path.Combine(mainDir, "Configuration.ini"));

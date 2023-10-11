@@ -39,7 +39,7 @@ public partial class Display : ContentPage {
 #endif
 #if MACCATALYST
         cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
-          SetMainWindowStartSize(800, 100);
+         
 #endif
         this.style = _style;
         Loaded += Display_Loaded;
@@ -124,6 +124,9 @@ public partial class Display : ContentPage {
     CancellationTokenSource tokenSource2 = new CancellationTokenSource();
     Task ListenerTask;
     private void Display_Loaded(object sender, EventArgs e) {
+#if MACCATALYST
+ SetMainWindowStartSize(800, 100);
+#endif
         if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
             var parser = new FileIniDataParser();
             IniData data = parser.ReadFile(Path.Combine(cacheDir, "Configuration.ini"));

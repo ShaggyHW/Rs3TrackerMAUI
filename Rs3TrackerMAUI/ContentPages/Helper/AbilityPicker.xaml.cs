@@ -13,7 +13,7 @@ public partial class AbilityPicker : ContentPage {
 
     public AbilityPicker() {
         InitializeComponent();
-        SetMainWindowStartSize(670, 540);
+       
     
 #if WINDOWS
         cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
@@ -55,6 +55,7 @@ public partial class AbilityPicker : ContentPage {
 #endif
     }
     private void AbilityPicker_Loaded(object sender, EventArgs e) {
+        SetMainWindowStartSize(670, 540);
         if (File.Exists(Path.Combine(mainDir, "mongoAbilities.json"))) {
             abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(Path.Combine(mainDir, "mongoAbilities.json")));
             if (abilities != null) {

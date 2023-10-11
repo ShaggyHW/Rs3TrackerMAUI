@@ -24,7 +24,7 @@ public partial class KeybindConfigurations : ContentPage {
         cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif
         InitializeComponent();
-        SetMainWindowStartSize(670, 540);
+     
   
         Loaded += KeybindConfigurations_Loaded;
     }
@@ -35,6 +35,7 @@ public partial class KeybindConfigurations : ContentPage {
     string IP = "";
     string PORT = "";
     private void KeybindConfigurations_Loaded(object sender, EventArgs e) {
+        SetMainWindowStartSize(670, 540);
         if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
             var parser = new FileIniDataParser();
             IniData data = parser.ReadFile(Path.Combine(cacheDir, "Configuration.ini"));

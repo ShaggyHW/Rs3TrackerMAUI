@@ -27,7 +27,7 @@ public partial class AbilityConfigurations : ContentPage {
 #endif
     
         InitializeComponent();
-        SetMainWindowStartSize(850, 520);
+       
         if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
             var parser = new FileIniDataParser();
             IniData data = parser.ReadFile(Path.Combine(cacheDir, "Configuration.ini"));
@@ -68,6 +68,7 @@ public partial class AbilityConfigurations : ContentPage {
     }
 
     private void AbilityConfigurations_Loaded(object sender, EventArgs e) {
+        SetMainWindowStartSize(850, 520);
         if (File.Exists(Path.Combine(mainDir, "mongoAbilities.json"))) {
             abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(Path.Combine(mainDir, "mongoAbilities.json")));
             if (abilities != null) {
