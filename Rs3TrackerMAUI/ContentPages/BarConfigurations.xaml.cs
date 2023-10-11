@@ -35,6 +35,10 @@ public partial class BarConfigurations : ContentPage {
     }
 
     private void btnAdd_Clicked(object sender, EventArgs e) {
+        if (string.IsNullOrEmpty(txtBarName.Text)) {
+            DisplayAlert("WARNING", "Bar Name Empty", "OK");
+            return;
+        }
         bars.Add(new BarClass() { name = txtBarName.Text });
         dgSettings.ItemsSource = null;
         dgSettings.ItemsSource = bars;
