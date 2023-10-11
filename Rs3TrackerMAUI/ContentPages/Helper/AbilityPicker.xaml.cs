@@ -12,8 +12,9 @@ public partial class AbilityPicker : ContentPage {
     public Ability PickedAbilty = new Ability();
 
     public AbilityPicker() {
-        SetMainWindowStartSize(670, 540);
         InitializeComponent();
+        SetMainWindowStartSize(670, 540);
+    
 #if WINDOWS
         cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif

@@ -9,8 +9,9 @@ public partial class Settings : ContentPage {
     string mainDir = "";
 
     public Settings() {
-        SetMainWindowStartSize(450, 270);
         InitializeComponent();
+        SetMainWindowStartSize(450, 270);
+
 #if WINDOWS
       mainDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif

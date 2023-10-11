@@ -25,8 +25,9 @@ public partial class BarKeybindsConfigurations : ContentPage {
 #if MACCATALYST
         cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif
-        SetMainWindowStartSize(670, 540);
         InitializeComponent();
+        SetMainWindowStartSize(670, 540);
+    
         Loaded += BarKeybindsConfigurations_Loaded;
     }
     private void SetMainWindowStartSize(int width, int height) {
