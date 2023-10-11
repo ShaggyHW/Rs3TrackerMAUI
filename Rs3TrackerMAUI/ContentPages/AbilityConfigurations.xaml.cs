@@ -25,6 +25,7 @@ public partial class AbilityConfigurations : ContentPage {
 #if MACCATALYST
         cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif
+        SetMainWindowStartSize(850, 500);
         InitializeComponent();
 
         if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
@@ -37,7 +38,7 @@ public partial class AbilityConfigurations : ContentPage {
             Directory.CreateDirectory(Path.Combine(mainDir, "Images"));
         if (!Directory.Exists(Path.Combine(mainDir, "PersonalImages")))
             Directory.CreateDirectory(Path.Combine(mainDir, "PersonalImages"));
-        SetMainWindowStartSize(850, 500);
+    
         Loaded += AbilityConfigurations_Loaded;
     }
     private void SetMainWindowStartSize(int width, int height) {
