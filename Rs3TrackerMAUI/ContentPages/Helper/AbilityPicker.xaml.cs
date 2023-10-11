@@ -46,13 +46,6 @@ public partial class AbilityPicker : ContentPage {
             });
 #endif
 
-#if WINDOWS
-        Microsoft.UI.Xaml.Window window = (Microsoft.UI.Xaml.Window)App.Current.Windows.First<Window>().Handler.PlatformView;
-        IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(window);
-        Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
-        Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
-        appWindow.Resize(new Windows.Graphics.SizeInt32(width,height));      
-#endif
     }
     private void AbilityPicker_Loaded(object sender, EventArgs e) {
         SetMainWindowStartSize(670, 540);
