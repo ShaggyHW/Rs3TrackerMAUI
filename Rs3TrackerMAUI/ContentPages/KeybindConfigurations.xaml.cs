@@ -152,7 +152,7 @@ public partial class KeybindConfigurations : ContentPage {
         else if (e.metaKey)//Windows Key
             modifier = "WIN+";
 
-        SelectedKey.Text = modifier + KeybindConverter.KeyConversion(e.keycode);
+        MainThread.InvokeOnMainThreadAsync(() => SelectedKey.Text = modifier + KeybindConverter.KeyConversion(e.keycode));
     }
 
     private void btnAddKey_Clicked(object sender, EventArgs e) {

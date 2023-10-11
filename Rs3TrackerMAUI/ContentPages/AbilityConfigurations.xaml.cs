@@ -25,9 +25,9 @@ public partial class AbilityConfigurations : ContentPage {
 #if MACCATALYST
         cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif
-    
+
         InitializeComponent();
-       
+
         if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
             var parser = new FileIniDataParser();
             IniData data = parser.ReadFile(Path.Combine(cacheDir, "Configuration.ini"));
@@ -38,7 +38,7 @@ public partial class AbilityConfigurations : ContentPage {
             Directory.CreateDirectory(Path.Combine(mainDir, "Images"));
         if (!Directory.Exists(Path.Combine(mainDir, "PersonalImages")))
             Directory.CreateDirectory(Path.Combine(mainDir, "PersonalImages"));
-    
+
         Loaded += AbilityConfigurations_Loaded;
     }
     private void SetMainWindowStartSize(int width, int height) {
@@ -68,7 +68,7 @@ public partial class AbilityConfigurations : ContentPage {
     }
 
     private void AbilityConfigurations_Loaded(object sender, EventArgs e) {
-        SetMainWindowStartSize(850, 520);
+       SetMainWindowStartSize(850, 520);
         if (File.Exists(Path.Combine(mainDir, "mongoAbilities.json"))) {
             abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(Path.Combine(mainDir, "mongoAbilities.json")));
             if (abilities != null) {
