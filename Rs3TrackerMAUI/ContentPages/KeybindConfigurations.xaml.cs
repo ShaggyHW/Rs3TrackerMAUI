@@ -23,7 +23,7 @@ public partial class KeybindConfigurations : ContentPage {
 #if MACCATALYST
         cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif
-        SetMainWindowStartSize(670, 520);
+        SetMainWindowStartSize(670, 540);
         InitializeComponent();
         Loaded += KeybindConfigurations_Loaded;
     }

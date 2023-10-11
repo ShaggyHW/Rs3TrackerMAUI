@@ -32,13 +32,14 @@ public partial class Display : ContentPage {
  
 
     public Display(string _style) {
-        SetMainWindowStartSize(800, 80);
+      
         InitializeComponent();
 #if WINDOWS
         cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif
 #if MACCATALYST
         cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+          SetMainWindowStartSize(800, 100);
 #endif
         this.style = _style;
         Loaded += Display_Loaded;

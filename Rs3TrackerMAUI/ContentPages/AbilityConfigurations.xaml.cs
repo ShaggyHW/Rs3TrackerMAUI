@@ -25,7 +25,7 @@ public partial class AbilityConfigurations : ContentPage {
 #if MACCATALYST
         cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
 #endif
-        SetMainWindowStartSize(850, 500);
+        SetMainWindowStartSize(850, 520);
         InitializeComponent();
 
         if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
