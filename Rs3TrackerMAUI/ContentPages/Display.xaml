@@ -5,12 +5,14 @@
              Title="Display"
              MaximumHeightRequest="80"
              MinimumHeightRequest="80"
+             HeightRequest="80"
              MaximumWidthRequest="800"
-             MinimumWidthRequest="800">
+             MinimumWidthRequest="800"
+             WidthRequest="800">
     <Grid>
         <Image x:Name="backgroundImage"
                Source="background.png"
-               Aspect="Fill"
+               Aspect="AspectFill"
                HorizontalOptions="Start" />
         <Grid>
             <Grid.ColumnDefinitions>
