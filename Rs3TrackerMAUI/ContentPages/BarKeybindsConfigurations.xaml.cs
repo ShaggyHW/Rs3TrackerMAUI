@@ -134,7 +134,7 @@ public partial class BarKeybindsConfigurations : ContentPage {
         else if (e.metaKey)//Windows Key
             modifier = "WIN+";
 
-        SelectedKey.Text = modifier + KeybindConverter.KeyConversion(e.keycode);
+        MainThread.InvokeOnMainThreadAsync(() => SelectedKey.Text = modifier + KeybindConverter.KeyConversion(e.keycode));
     }
 
     private void btnSaveBarKeybind_Clicked(object sender, EventArgs e) {
