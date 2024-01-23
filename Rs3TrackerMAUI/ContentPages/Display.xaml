@@ -10,8 +10,7 @@
              MinimumWidthRequest="800"
              WidthRequest="800">
     <Grid>
-        <Image x:Name="backgroundImage"
-               Source="background.png"
+        <Image x:Name="backgroundImage"               
                Aspect="AspectFill"
                HorizontalOptions="Start" />
         <Grid>

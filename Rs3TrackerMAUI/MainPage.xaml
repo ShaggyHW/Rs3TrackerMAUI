@@ -2,7 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             x:Class="Rs3TrackerMAUI.MainPage">
+             x:Class="Rs3TrackerMAUI.MainPage"
+             HeightRequest="320"
+             WidthRequest="650"
+             MinimumHeightRequest="320"
+             MinimumWidthRequest="650">
 
     <Grid>
         <Grid.RowDefinitions>

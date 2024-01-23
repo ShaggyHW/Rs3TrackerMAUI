@@ -5,7 +5,9 @@
        xmlns:local="clr-namespace:Rs3TrackerMAUI"
        Shell.FlyoutBehavior="Disabled"
        Title="Rs3Tracker"
-       Shell.NavBarIsVisible="False">
+       Shell.NavBarIsVisible="False"
+       MinimumHeightRequest="320"
+       MinimumWidthRequest="650">
 
     <ShellContent Title=""
                   ContentTemplate="{DataTemplate local:MainPage}"

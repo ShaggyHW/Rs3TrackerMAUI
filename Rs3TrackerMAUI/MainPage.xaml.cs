@@ -16,13 +16,15 @@ public partial class MainPage : ContentPage {
     string cacheDir = "";
     public MainPage() {
 #if WINDOWS
-        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+        cacheDir = ".\\Configuration\\";
 #endif
 #if MACCATALYST
-        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+        cacheDir = ".\\Configuration\\";
 #endif
-        SetMainWindowStartSize(650, 320);
+        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+
         InitializeComponent();
+        SetMainWindowStartSize(650, 320);
         Loaded += MainPage_Loaded;
     }
     private void SetMainWindowStartSize(int width, int height) {
@@ -47,11 +49,14 @@ public partial class MainPage : ContentPage {
         IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(window);
         Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
         Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
-        appWindow.Resize(new Windows.Graphics.SizeInt32(width,height));      
+        appWindow.Resize(new Windows.Graphics.SizeInt32(width*2, height*2));
 #endif
     }
 
     private void MainPage_Loaded(object sender, EventArgs e) {
+        if (!Directory.Exists(cacheDir)) {
+            Directory.CreateDirectory(cacheDir);
+        }
         if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
             var parser = new FileIniDataParser();
             IniData data = parser.ReadFile(Path.Combine(cacheDir, "Configuration.ini"));

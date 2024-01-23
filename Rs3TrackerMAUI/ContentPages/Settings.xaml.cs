@@ -13,11 +13,12 @@ public partial class Settings : ContentPage {
       
 
 #if WINDOWS
-      mainDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+      mainDir = ".\\Configuration\\";
 #endif
 #if MACCATALYST
-        mainDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+        mainDir = ".\\Configuration\\";
 #endif
+        mainDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
         Loaded += Settings_Loaded;
     }
 
@@ -49,13 +50,17 @@ public partial class Settings : ContentPage {
 #endif
     }
     private void btnSave_Clicked(object sender, EventArgs e) {
-        var parser = new FileIniDataParser();
-        IniData data = new IniData();
-        data["DATA"]["FOLDER"] = txtDataFolder.Text;
-        data["DATA"]["IP"] = txtIP.Text;
-        data["DATA"]["PORT"] = txtPort.Text;
-        parser.WriteFile(Path.Combine(mainDir, "Configuration.ini"), data);
-        DisplayAlert("SAVED", "Data has been saved", "OK");
+        try {
+            var parser = new FileIniDataParser();
+            IniData data = new IniData();
+            data["DATA"]["FOLDER"] = txtDataFolder.Text;
+            data["DATA"]["IP"] = txtIP.Text;
+            data["DATA"]["PORT"] = txtPort.Text;
+            parser.WriteFile(Path.Combine(mainDir, "Configuration.ini"), data);
+            DisplayAlert("SAVED", "Data has been saved", "OK");
+        }catch (Exception ex) {
+            DisplayAlert("OK", ex.Message, "OK");
+        }
     }
 
     private void btnClose_Clicked(object sender, EventArgs e) {

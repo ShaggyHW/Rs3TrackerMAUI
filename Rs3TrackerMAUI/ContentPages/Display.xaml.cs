@@ -29,18 +29,19 @@ public partial class Display : ContentPage {
     //private bool trackCD;
     private bool pause = false;
 
- 
+
 
     public Display(string _style) {
-      
+
         InitializeComponent();
 #if WINDOWS
-        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+        cacheDir = ".\\Configuration\\";
 #endif
 #if MACCATALYST
-        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+        cacheDir = ".\\Configuration\\";
          
 #endif
+        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
         this.style = _style;
         Loaded += Display_Loaded;
 
@@ -121,6 +122,7 @@ public partial class Display : ContentPage {
 #if MACCATALYST
  SetMainWindowStartSize(800, 100);
 #endif
+
         if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
             var parser = new FileIniDataParser();
             IniData data = parser.ReadFile(Path.Combine(cacheDir, "Configuration.ini"));
@@ -128,10 +130,11 @@ public partial class Display : ContentPage {
             IP = data["DATA"]["IP"];
             PORT = data["DATA"]["PORT"];
         }
+        var imageSource = ImageSource.FromFile(Path.Combine(mainDir, "background.png"));
+        backgroundImage.Source = imageSource;
 
-
-        keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(Path.Combine(mainDir , "keybinds.json")));
-        keybindBarClasses = JsonConvert.DeserializeObject<List<BarKeybindClass>>(File.ReadAllText(Path.Combine(mainDir , "barkeybinds.json")));
+        keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(Path.Combine(mainDir, "keybinds.json")));
+        keybindBarClasses = JsonConvert.DeserializeObject<List<BarKeybindClass>>(File.ReadAllText(Path.Combine(mainDir, "barkeybinds.json")));
         stopwatch.Start();
         CancellationToken ct = tokenSource2.Token;
         ListenerTask = Task.Factory.StartNew(() => StartListener(ct), tokenSource2.Token);
@@ -201,7 +204,7 @@ public partial class Display : ContentPage {
                 keypressed.modifier = modifier;
                 keypressed.key = keyPressedValue.ToString();
                 keypressed.ability.name = ability.name;
-                keypressed.ability.img = ability.img;             
+                keypressed.ability.img = ability.img;
                 keypressed.timepressed = stopwatch.Elapsed.TotalMilliseconds;
 
                 for (int i = 0; i < ListPreviousKeypressed.Count; i++) {
@@ -295,8 +298,8 @@ public partial class Display : ContentPage {
             if (keybindBarClasses != null) {
                 var listBarChange = keybindBarClasses.Where(p => p.key.ToLower().Equals(keyPressedValue.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower()) && (p.bar.name.ToLower().Equals(style.ToLower()) || p.bar.name.Equals("ALL"))).Select(p => p).FirstOrDefault();
                 if (listBarChange != null) {
-                    if (!listBarChange.name.ToLower().Equals("pause") && !listBarChange.name.ToLower().Equals("clear")) {
-                        style = listBarChange.name;
+                    if (!listBarChange.bar.name.ToLower().Equals("pause") && !listBarChange.bar.name.ToLower().Equals("clear")) {
+                        style = listBarChange.bar.name;
                         changeStyle();
                     }
                 }

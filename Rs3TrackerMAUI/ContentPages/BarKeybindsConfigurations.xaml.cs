@@ -20,11 +20,12 @@ public partial class BarKeybindsConfigurations : ContentPage {
 
     public BarKeybindsConfigurations() {
 #if WINDOWS
-        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+        cacheDir = ".\\Configuration\\";
 #endif
 #if MACCATALYST
-        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+        cacheDir = ".\\Configuration\\";
 #endif
+        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
         InitializeComponent();
 
     

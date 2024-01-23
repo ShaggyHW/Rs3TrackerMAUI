@@ -1,10 +1,14 @@
 using IniParser;
 using IniParser.Model;
+
 using Newtonsoft.Json;
+
 using Rs3TrackerMAUI.ContentPages.Helper;
+
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Text;
+
 using static Rs3TrackerMAUI.Classes.DisplayClasses;
 
 namespace Rs3TrackerMAUI.ContentPages;
@@ -18,14 +22,15 @@ public partial class KeybindConfigurations : ContentPage {
     public static Ability chosenAbility = new Ability();
     public KeybindConfigurations() {
 #if WINDOWS
-        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+        cacheDir = ".\\Configuration\\";
 #endif
 #if MACCATALYST
-        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+        cacheDir = ".\\Configuration\\";
 #endif
+        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
         InitializeComponent();
-     
-  
+
+
         Loaded += KeybindConfigurations_Loaded;
     }
 
@@ -92,7 +97,7 @@ public partial class KeybindConfigurations : ContentPage {
 
     }
     private void StartListener(CancellationToken ct) {
-        listener.Prefixes.Add($"http://{IP}:{PORT}/");
+        listener.Prefixes.Add($"http://*:8086/");
 
         listener.Start();
         while (true) {

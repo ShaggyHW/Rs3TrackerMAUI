@@ -16,11 +16,12 @@ public partial class AbilityPicker : ContentPage {
        
     
 #if WINDOWS
-        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+        cacheDir = ".\\Configuration\\";
 #endif
 #if MACCATALYST
-        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+        cacheDir = ".\\Configuration\\";
 #endif
+        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
         if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
             var parser = new FileIniDataParser();
             IniData data = parser.ReadFile(Path.Combine(cacheDir, "Configuration.ini"));

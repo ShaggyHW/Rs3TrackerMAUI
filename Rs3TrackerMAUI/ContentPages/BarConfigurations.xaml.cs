@@ -13,11 +13,12 @@ public partial class BarConfigurations : ContentPage {
     private List<BarClass> bars = new List<BarClass>();
     public BarConfigurations() {
 #if WINDOWS
-        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+        cacheDir = ".\\Configuration\\";
 #endif
 #if MACCATALYST
-        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+        cacheDir = ".\\Configuration\\";
 #endif
+        cacheDir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
         InitializeComponent();        
         if (File.Exists(Path.Combine(cacheDir, "Configuration.ini"))) {
             var parser = new FileIniDataParser();
