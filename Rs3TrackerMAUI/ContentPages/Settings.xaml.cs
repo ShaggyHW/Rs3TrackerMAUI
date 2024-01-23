@@ -10,7 +10,7 @@ public partial class Settings : ContentPage {
 
     public Settings() {
         InitializeComponent();
-      
+
 
 #if WINDOWS
       mainDir = ".\\Configuration\\";
@@ -58,7 +58,7 @@ public partial class Settings : ContentPage {
             data["DATA"]["PORT"] = txtPort.Text;
             parser.WriteFile(Path.Combine(mainDir, "Configuration.ini"), data);
             DisplayAlert("SAVED", "Data has been saved", "OK");
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             DisplayAlert("OK", ex.Message, "OK");
         }
     }
