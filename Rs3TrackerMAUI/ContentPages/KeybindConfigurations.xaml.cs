@@ -97,43 +97,43 @@ public partial class KeybindConfigurations : ContentPage {
 
     }
     private void StartListener(CancellationToken ct) {
-        listener.Prefixes.Add($"http://*:8086/");
+        //listener.Prefixes.Add($"http://*:8086/");
 
-        listener.Start();
-        while (true) {
-            try {
+        ////listener.Start();
+        //while (true) {
+        //    try {
 
-                HttpListenerContext ctx = listener.GetContext();
-                using (HttpListenerResponse resp = ctx.Response) {
-                    string endpoint = ctx.Request.Url.LocalPath;
-                    using (var reader = new StreamReader(ctx.Request.InputStream,
-                                                                ctx.Request.ContentEncoding)) {
-                        string text = reader.ReadToEnd();
-                        var key = JsonConvert.DeserializeObject<ResquestInput>(text);
-                        if (!key.keycode.Equals(42) && !key.keycode.Equals(29) && !key.keycode.Equals(3675) && !key.keycode.Equals(56)) {
-                            MainThread.InvokeOnMainThreadAsync(() => HookKeyDown(key));
-                        }
-                    }
-                    string data = "OK";
-                    byte[] buffer = Encoding.UTF8.GetBytes(data);
-                    resp.ContentLength64 = buffer.Length;
+        //        HttpListenerContext ctx = listener.GetContext();
+        //        using (HttpListenerResponse resp = ctx.Response) {
+        //            string endpoint = ctx.Request.Url.LocalPath;
+        //            using (var reader = new StreamReader(ctx.Request.InputStream,
+        //                                                        ctx.Request.ContentEncoding)) {
+        //                string text = reader.ReadToEnd();
+        //                var key = JsonConvert.DeserializeObject<ResquestInput>(text);
+        //                if (!key.keycode.Equals(42) && !key.keycode.Equals(29) && !key.keycode.Equals(3675) && !key.keycode.Equals(56)) {
+        //                    MainThread.InvokeOnMainThreadAsync(() => HookKeyDown(key));
+        //                }
+        //            }
+        //            string data = "OK";
+        //            byte[] buffer = Encoding.UTF8.GetBytes(data);
+        //            resp.ContentLength64 = buffer.Length;
 
-                    using (Stream ros = resp.OutputStream)
-                        ros.Write(buffer, 0, buffer.Length);
+        //            using (Stream ros = resp.OutputStream)
+        //                ros.Write(buffer, 0, buffer.Length);
 
-                }
+        //        }
 
-            } catch (Exception ex) { }
-            try {
-                if (ct.IsCancellationRequested) {
-                    // Clean up here, then...
-                    ct.ThrowIfCancellationRequested();
-                }
-            } catch (OperationCanceledException ex) {
-                tokenSource2.Dispose();
-                return;
-            }
-        }
+        //    } catch (Exception ex) { }
+        //    try {
+        //        if (ct.IsCancellationRequested) {
+        //            // Clean up here, then...
+        //            ct.ThrowIfCancellationRequested();
+        //        }
+        //    } catch (OperationCanceledException ex) {
+        //        tokenSource2.Dispose();
+        //        return;
+        //    }
+        //}
     }
 
     private void HookKeyDown(ResquestInput e) {
